@@ -1,0 +1,85 @@
+﻿*********************************************** 		GESTIONE SPESE ACCESSORIE		***********************************
+
+La gestione delle spese accessorie va rivista in diversi punti:
+
+1) va inserito il concetto si "spesa non documentale (accessoria)";
+		questo concetto, se applicato prevede il calcolo delle tasse in modo differente dal solito.
+		E' necessario effettuare una proporzione dei prodotti in base alle differenti aliquote iva e ripartire le differenti aliquote
+		iva nelle spese accessorie, per capire come funziona: http://www.marchegianionline.net/appro/appro_72.htm		
+		Quando non viene selezionato il flag, la gestione tasse rimane come di consueto, a parte i nuovi cambiamenti da applicare.
+		il flag va aggiunto come colonna della tabella SPESE_ACCESSORIE SMALLINT(1) not null default 0;
+		Cercare di capire le difficoltà di proporzionamento, se si dispone di tutti i dati sia nel carrello che nel BO ordini
+		Servono le aliquote dei prodotti in base al country selezionato e quindi al gruppo tasse scelto.
+		Quando viene selezionato il flag "spesa non documentale" devono essere escluse tase, gruppo tasse e tipologia di calcolo;
+		il valore inserito sarà solo quello del campo VALORE che sarà imponibile da proporzionare e su cui applicare le differenti aliquote iva
+		dei prodotti, in base al country o alla tassa applicata in fase di acquisto.
+
+2) per poter applicare i cambiamenti successivi, è necessario calcolare e memorizzare opportunamente,
+	 in fase di elaborazione carrello, e in più punti della gestione ordini, tutti i dati necessari ai calcoli;
+	 esempio le quantità dei prodotti e il loro totale, la mappa dei field per prodotto, solo se di tipo numerico, e il loro valore;
+	 quindi se per la spesa accessoria volgio selezionare un field prodotto, la lista visualizzerà solo quelli numerici tipo peso, 
+	 massa, ecc, mentre non terrà conto dei campi tipo, colore, taglia, ecc
+	 Il recupero e la memorizzazione dei field nel carrello e negli ordini del BO segue la stessa logica di selezione.
+	 
+	 Valutare inoltre se mantenere il campo VALORE della tabella SPESE_ACCESSORIE, o se utilizzare sempre la mappa di range.
+	 Mantenerlo significa utilizzare la logica attuale per i primi due metodi di calcolo (fisso e percentuale)
+	 e ampliare la lista di metodi, da cui cominciare ad utilizzare la mappa di range.
+	 La nuova lista completa potrebe essere:
+	 
+	 1 = fisso;
+	 2 = percentuale 		(imponibile ordine);
+	 3 = fisso			(range imponibile ordine);			0-100=10; 101-200=20; 
+	 4 = percentuale		(range imponibile ordine);			0-100=3%; 101-200=5%;
+	 5 = fisso			(range quantità ordine);			0-100=10; 101-200=20; 
+	 6 = fisso			(range quantità ordine incrementale);	1=5; 2-100=+10; 101-200=+20; 200-100000=+0,50 
+	 7 = fisso			(range field prodotto);				0-100=10; 101-200=20;
+	 8 = fisso			(range field prodotto incrementale);	1=5; 2-100=+10; 101-200=+20; 200-100000=+0,50 
+
+
+Aggiungere alle spese accessorie le seguenti regole:
+
+1) gestione dei range e delle differenti tipologie di calcolo in base al numero prodotti, al peso, al totale, ecc..
+2) gestione importo spesa in base al paese di spedizione
+3) DA VALUTARE: integrazione con UPS e altri fornitori
+
+
+Per ottenere queste funzioni bisogna:
+
+
+A) - aggiungere tabella di relazione (SPESE_ACCESSORIE_CONFIG) con i seguenti field:
+
+ID_SPESA (la spesa accessoria a cui è associata questa configurazione)
+ID_PROD_FIELD 
+    (id field associato da cui recuperare il valore per gestire il range from e to; 
+     per esempio se seleziono il field "peso prodotto", la somma dei pesi prodotto di un ordine deve essere usata 
+     per valutare il rage di riferimento corretto
+     ...valutare come gestire questo problema del recupero field corretto e del relativo lavore per ogni prodotto, 
+     nelle pagine dove vengono fatti i calcoli)
+RATE_FROM
+RATE_TO
+OPERATION (add, sub)
+VALORE
+
+
+* le tipologie di configurazione possono essere:
+
+Flat rate based on order amount
+Select this option if you wish to charge a flat rate based on the total order amount (e.g. for orders between $50 and $100, charge $7.50).
+
+
+Percentage of order amount
+Select this option if you wish to create a shipping option that charges a percentage of the total order amount (e.g. for orders between $50 and $100, charge 11% of the order amount).
+
+
+Flat rate based on order quantity
+Select this option if you wish to create a shipping option that charges a flat rate based on the total number of the items in the cart (e.g. for order between 10 and 20 units, charge $5).
+
+
+Flat rate based on order weight
+Select this option if you wish to create a shipping option that charges a flat rate based on the total weight of the items in the cart (e.g. for order between 5 and 10 pounds, charge $12).
+
+
+Incremental calculation based on order quantity
+Example: charge $5.00 for the first item, then an additional $1 on the next 9 items, then $0.50 on all items over 9. If the order contained 22 units, shipping would be calculated as follows: ($5 + ($1*9) + (.50*12))=$20.00.
+
+B) - Aggiungere un concetto analogo al gruppo tasse, per gestire la differenza di spesa in base alla nazione di spedizione

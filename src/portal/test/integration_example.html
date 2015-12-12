@@ -1,0 +1,75 @@
+<!--  ****************************************** INTEGRAZIONE GOOGLEMAP API ****************************************** -->
+<script type="text/javascript" src="/common/js/jquery-latest.min.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA_fC5YbH2g1ksyJQVZFp4xxQvEvV86WDzDA3NIhU79VSEjDOoDxQrk_kJ_0noEdAFGbBsYCQJi1rSuQ" type="text/javascript"></script>
+<script type="text/javascript" src="/common/js/jquery.googlemaps.js"></script>
+
+<div style="width:500px;height:300px;" id="map">&nbsp;</div>
+<script>
+
+$(document).ready(function() { 
+	if (GBrowserIsCompatible()) {
+		var map = new GMap2(document.getElementById("map"));		
+		map.setCenter(new GLatLng(0, 0), 1);
+		map.addControl(new GLargeMapControl());		
+		
+		var geocoder = new GClientGeocoder();
+		//geocoder.setBaseCountryCode("IT");
+		//alert(geocoder.getBaseCountryCode());
+		var infoWindow = "";
+		
+		//var marker = new GMarker(new GLatLng(42.0, 11.5)); 
+		//map.addOverlay(marker);
+		//GEvent.addListener(marker, "click", function() {
+		//	marker.openInfoWindowHtml("prova info windows");
+		//});
+
+		function getCurrMap(){
+			//alert(map instanceof GMap2);
+			return map;
+		}
+		
+		function getInfoWinText(){
+			return infoWindow;
+		}
+		
+		function setInfoWinText(infoText){
+			infoWindow = infoText;
+		}
+		
+		var markerFunct = function(response){
+			if(response!=null){
+				// Retrieve the object
+				place = response.Placemark[0];
+
+				// Retrieve the latitude and longitude
+				point = new GLatLng(place.Point.coordinates[1],place.Point.coordinates[0]);
+
+				var streetAddress = place.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare.ThoroughfareName;
+				var city = place.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName;
+				var state = place.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName;
+				var zip = place.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.PostalCode.PostalCodeNumber;
+			
+				var currMarker = new GMarker(point); 
+				getCurrMap().addOverlay(currMarker);
+				getCurrMap().setCenter(point,10);
+				GEvent.addListener(currMarker, "click", function() {
+					currMarker.openInfoWindowHtml(getInfoWinText() +"<br />" + streetAddress +"<br />"+ city + ", " + state + " " + zip);					
+				});
+			}
+		}; 
+
+
+		setInfoWinText("prova info windows text settato da funzione");
+		var address ="via salaria, roma, italia";
+		var point_tmp = new GLatLng(45.464984, 9.187189);
+		//geocoder.getLocations( address,markerFunct);
+		
+		//http://maps.google.it/maps?hl=it&ll=45.464984,9.187189&spn=0.000733,0.001742&t=h&z=20
+		
+		geocoder.getLocations( point_tmp,markerFunct);
+
+		
+	} 
+});
+
+</script>

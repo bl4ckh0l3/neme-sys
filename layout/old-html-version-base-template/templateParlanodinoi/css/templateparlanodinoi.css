@@ -1,0 +1,56 @@
+.parlanoLeft{
+	background-color:#AEA5A1;
+	text-align:right;
+	vertical-align:top;
+	padding-right:0px;
+	padding-top:29px;
+	background-image:url(../img/sfondo_sx.jpg);
+	color:#604F48;
+	font-size:11px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	width:194px;
+}
+
+.parlanoRight{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background:url(../img/sfondo_dx.jpg) top left repeat-y;
+	text-align:left;	
+	vertical-align:top;
+	width:463px;
+	padding-left:160px;
+	padding-top:25px;
+}
+.tdHeaderBott{
+	text-align:left;
+	padding-left:194px;
+}
+.titleContent{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	font-weight:bold;
+	
+}
+.attachLinkStyle{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	text-decoration: none;
+}
+.attachLinkPdfStyle{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#0623b9;
+	text-decoration: none;
+}
+.tableContentPdnoi{
+	width:974px;	
+}
+.tdContainerContent{
+	vertical-align:top;
+	width:100%;
+	text-align:left;
+	background:url(../img/sfondo_dx.jpg) top left repeat;
+}

@@ -1,0 +1,18 @@
+*************************     FLUSSO ORDINE    *************************
+
+- per i sistemi di pagamento esterni, aggiungere per ogni tipologia di pagamento, elenco campi del sito esterno necessari e
+  abinare sempre il match con i campi fissi id_ordine, totale, order_guid
+  (nuova tabella su db da gestire come scritto sul TODO);
+
+- pagina process ordine/carrello;
+- calcoli e creazione finale ordine;
+- creazione guid univoco per ordine e memorizzazione su DB (nuovo campo a tabella ordini);- 
+- se pagamento esterno:
+   - recupero tutti i campi del pagamento esterno;
+   - creo variabile di sessione con la sequenza di campi recuperati stile querystring;
+   - redirect verso nuova pagina checkout_order.asp da mettere dentro la dir common/include;
+   - la nuova pagina crea un form con i campi recuperati dalla sessione e invia il form sull'onload;
+   - la pagina di ritorno dei pagamenti esterni sarà sempre checkin_order.asp da mettere dentro la dir common/include;
+   - in questa pagina verranno effettuati tutti i controlli di validità dell'ordine e se positivi impostato il flag pagamento_effettuato a 1;
+   - a seconda se si arrivi da frontend o backend, dirigere l'utente verso la pagina di conferma opportuna, dove verrà visualizzato il risultato dell'ordine e inviate le mail di conferma
+      all'utente e all'amministratore del sistema;

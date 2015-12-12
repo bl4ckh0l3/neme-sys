@@ -1,0 +1,4 @@
+0) terminare contenuti;
+3) terminare demo con 
+	gestione cambio grafica con css;
+6) terminare licenza GNU GPL;

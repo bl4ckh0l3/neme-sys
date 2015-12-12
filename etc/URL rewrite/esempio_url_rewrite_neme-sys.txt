@@ -1,0 +1,37 @@
+CLEAN URL: 
+/IT/detail/G05-M2-N7-PG1/the-product
+
+REWRITE URL: 
+/public/templates/the-product/IT/detail.asp?gerarchia=05&modelPageNum=2&id_news=7&page=1
+
+REGEXP: 
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.]+)\-N([^/\.]+)\-PG([^/\.]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&page=$6 [L]
+
+
+REGEXP PER TUTTE LE POSSIBILI COMBINAZIONI TRANNE add_done (A) - vode_done (V) - posted (S): (posted è parzialmente fatto)
+RewriteRule /([^/\.]+)/([^/\.]+)/([^/\.]+)$ /public/templates/$3/$1/$2.asp [L] 
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)/([^/\.]+)$ /public/templates/$6/$1/$2.asp?gerarchia=$3&page=$5 [L] 
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PF([^/\.\-]+)/([^/\.]+)$ /public/templates/$6/$1/$2.asp?gerarchia=$3&pageFlash=$5 [L] 
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)/([^/\.]+)$ /public/templates/$5/$1/$2.asp?gerarchia=$3&modelPageNum=$4 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-O([^/\.\-]+)/([^/\.]+)$ /public/templates/$6/$1/$2.asp?gerarchia=$3&modelPageNum=$4&order_by=$5 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-C([^/\.\-]+)/([^/\.]+)$ /public/templates/$6/$1/$2.asp?gerarchia=$3&modelPageNum=$4&currency=$5 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-O([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&order_by=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-C([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&currency=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-XD([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&excursion_date=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-ED([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&event_date=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-KW([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&keyword=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-PG([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&page=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-PG([^/\.\-]+)\-KW([^/\.\-]+)/([^/\.]+)$ /public/templates/$8/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&page=$6&keyword=$7 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)/([^/\.]+)$ /public/templates/$8/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&id_prodotto=$6&page=$7 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)\-O([^/\.\-]+)/([^/\.]+)$ /public/templates/$8/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6&order_by=$7 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-PG([^/\.\-]+)\-O([^/\.\-]+)\-C([^/\.\-]+)/([^/\.]+)$ /public/templates/$8/$1/$2.asp?gerarchia=$3&modelPageNum=$4&page=$5&order_by=$6&currency=$7 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)\-O([^/\.\-]+)\-C([^/\.\-]+)/([^/\.]+)$ /public/templates/$9/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6&order_by=$7&currency=$8 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)\-C([^/\.\-]+)\-XD([^/\.\-]+)/([^/\.]+)$ /public/templates/$9/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6&currency=$7&excursion_date=$8 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)\-C([^/\.\-]+)\-KW([^/\.\-]+)/([^/\.]+)$ /public/templates/$9/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6&currency=$7&keyword=$8 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-P([^/\.\-]+)\-PG([^/\.\-]+)\-O([^/\.\-]+)\-C([^/\.\-]+)\-XD([^/\.\-]+)/([^/\.]+)$ /public/templates/$10/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_prodotto=$5&page=$6&order_by=$7&currency=$8&excursion_date=$9 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-PW([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&is_preview_content=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-D([^/\.\-]+)/([^/\.]+)$ /public/templates/$6/$1/$2.asp?gerarchia=$3&modelPageNum=$4&destination=$5 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-S([^/\.\-]+)/([^/\.]+)$ /public/templates/$7/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&posted=$6 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-PG([^/\.\-]+)\-S([^/\.\-]+)/([^/\.]+)$ /public/templates/$8/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&page=$6&posted=$7 [L]
+RewriteRule /([^/\.]+)/([^/\.]+)/G([^/\-]+)\-M([^/\.\-]+)\-N([^/\.\-]+)\-PG([^/\.\-]+)\-KW([^/\.\-]+)\-S([^/\.\-]+)/([^/\.]+)$ /public/templates/$9/$1/$2.asp?gerarchia=$3&modelPageNum=$4&id_news=$5&page=$6&keyword=$7&posted=$8 [L]

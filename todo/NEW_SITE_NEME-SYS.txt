@@ -1,0 +1,50 @@
+﻿SITO NEME-SYS:
+
+home page:
+solo logo grande e menù orizzontale con categorie;
+
+progetto:
+intro con testo home page;
+
+	progetto-->caratteristiche:
+	caratteristiche di neme-sys e econeme-sys;
+
+	progetto-->download:
+	download entrambi pdf;
+	download zip neme-sys;
+
+	progetto-->demo:
+	link alla demo;
+
+community:
+spazio dedicato a sviluppo, opensource, commenti, ecc;
+valutare come fare per ottenere nuove pagine html dai commenti...
+
+personalizzazione:
+marketing per i nostri progetti e promozioni varie;
+vedere come riferimento il testo della sezione soluzioni di blackholenet;
+
+acquista:
+sezione di vendita diretta di neme-sys, econeme-sys e tutti i possibili moduli e upgrade e personalizzazioni grafiche che vorremo adottare;
+
+download:
+link diretto a download;
+
+demo:
+link diretto alla demo;
+
+chi siamo:
+testo descrittivo 
+
+case history:
+lista progetti che abbiamo fatto fino ad ora...
+
+contatti:
+form contatti (valutare upload file da parte di utente);
+
+iscrizione newsletter:
+valutare soluzione grafica;
+
+area utente:
+spazio personale dell'utente come la sezione attuale di blackholenet
+con lista amici, modifica utenti, lista ordini, bacheca, ecc..;

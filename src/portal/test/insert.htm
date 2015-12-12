@@ -1,0 +1,35 @@
+<!-- insert.htm -->
+<html>
+<head>
+	<title>Inserts Images into Database</title>
+	<style>
+		body, input { font-family:verdana,arial; font-size:10pt; }
+	</style>
+</head>
+<body>
+	<p align="center">
+		<b>Inserting Binary Data into Database</b><br>
+	</p>
+	
+	<table border="0" align="center">
+	<tr>
+	<form method="POST" enctype="multipart/form-data" action="Insert.asp">
+	<td>First Name :</td><td>
+		<input type="text" name="fname" size="40"></td>
+	</tr>
+	<td>Last Name :</td><td>
+		<input type="text" name="lname" size="40"></td>
+	</tr>
+	<td>Profession :</td><td>
+		<input type="text" name="profession" size="40">
+	</td></tr>
+	<td>File :</td><td>
+		<input type="file" name="file" size="40"></td></tr>
+	<td> </td><td>
+		<input type="submit" value="Submit"></td></tr>
+	</form>
+	</tr>
+	</table>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+.tableContainer{
+	margin:0 auto;
+	height:100%;
+	min-height:100%;	
+	width:100%;
+	vertical-align:top;
+	
+}.tableContainerInner{
+	margin:0 auto;
+	/*height:100%;
+	min-height:100%;*/	
+	/*width:100%;*/
+	/*padding-right:123px;*/
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000000;
+	
+}
+.tdContainerTopDetail{
+	margin:0 auto;
+	vertical-align:top;
+	height:113px;
+	width:100%;
+	text-align:center;
+}
+.tdContainerContentIndex{
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:191px;
+	width:100%;
+	height:389px;
+	text-align:center;
+	background:url(../img/sfondo_dx.jpg) top left repeat;
+	/*background-color:#AEA5A1;*/
+}
+.tdContainerContentIndexList{
+	vertical-align:top;
+	padding-top:62px;
+	padding-left:25px;
+	/*width:100%;*/
+	/*height:342px;*/
+	text-align:left;
+	/*background:url(../img/sfondo_iframe.jpg) top left repeat;*/
+	/*background-color:#AEA5A1;*/
+}
+.tdContainerContentList{
+	vertical-align:top;
+	padding-top:0px;
+	width:100%;
+	height:342px;
+	text-align:left;
+	/*background:url(../img/sfondo_iframe.jpg) top left repeat;*/
+	/*background-color:#AEA5A1;*/
+}
+.tdMenuListCenter{
+	width:125px;
+	background-color:#5B4A42;
+	text-align:center;	
+	vertical-align:middle;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	/*font-weight:bold;*/
+	color:#FFFFFF;
+	height:18px;
+}
+div.box{
+	width:670px;
+    height:332px;
+    overflow-x:auto;
+	overflow-y:scroll;
+	padding:0px;
+    border:0px;
+	text-align:left;
+	/*scrollbar-arrow-color:#fffff0;	*/
+	scrollbar-base-color:#d3bfb6;	
+	/*scrollbar-darkshadow-color:#c0c0c0;*/	
+	/*scrollbar-face-color:#002163;*/
+	/*scrollbar-highlight-color:#ccc;*/
+	/*scrollbar-shadow-color:#ccc;*/
+}
+.linkListeNozzeList{
+	color:#FFFFFF;
+	text-decoration:none;	
+}
+.tdContainerContent{
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:100%;
+	text-align:center;
+	background-color:#AEA5A1;
+	/*background:url(../img/sfondo_dx.jpg) top left repeat;*/
+}
+.tdContainerContentDett{
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:60px;
+	padding-right:68px;
+	width:100%;
+	text-align:left;
+	background-color:#AEA5A1;
+	/*background:url(../img/sfondo_dx.jpg) top left repeat;*/
+}
+.tdHeaderCenter{
+	text-align:left;
+	/*padding-right:80px;*/
+	vertical-align:middle;
+	width:95%;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:18px;
+	/*font-weight:bold;*/
+	color:#ffffff;
+}
+.tdPezziuniciSx{
+	vertical-align:top;
+	padding-top:12px;
+	padding-left:0px;
+	padding-right:0px;
+	width:260px;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#000000;
+}
+.tdPezziuniciCenter{
+	vertical-align:top;
+	width:480px;
+	text-align:center;
+}
+.tdPezziuniciDx{
+	vertical-align:top;
+	padding-top:12px;
+	padding-left:0px;
+	padding-right:0px;
+	width:260px;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#000000;
+}
+.txtRequestPrice{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	color:#ffffff;	
+}
+.txtClickToAdd{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/*font-weight:bold;*/
+	color:#5B4A42;	
+
+}
+.txtAddToCard{
+	vertical-align:baseline;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	color:#000000;
+
+}
+.txtRemoveFromList{
+	vertical-align:top;
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/*font-weight:bold;*/
+	color:#5B4A42;	
+	padding-left:40px;
+
+}
+.tdHeaderSxCard{
+	text-align:left;
+	padding-left:52px;
+	vertical-align:middle;
+	width:95%;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:16px;
+	color:#FFFFFF;
+}
+.tdContainerContentCard{
+	vertical-align:top;
+	padding-top:22px;
+	padding-left:60px;
+	padding-bottom:0px;
+	width:100%;
+	text-align:left;
+	background-color:#AEA5A1;
+	/*background:url(../img/sfondo_dx.jpg) top left repeat;*/
+}
+.tdPezziuniciSxCard{
+	vertical-align:top;
+	padding-top:3px;
+	padding-left:0px;
+	padding-right:25px;
+	width:231px;
+	text-align:left;
+}
+.txtComposeCard{
+	vertical-align:baseline;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000000;
+
+}
+.tdPezziuniciCenterCard{
+	vertical-align:top;
+	text-align:left;
+}
+.formFieldTXT{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:330px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTShort{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:70px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTMedium{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:256px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTAREA{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:middle;
+}
+.formFieldTXTAREAPrivacy{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:top;
+}
+.formLabel{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	padding-right:13px;
+	vertical-align:middle;
+}
+.formLabelIntro{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelIntro2{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-style:italic;
+	font-size:10px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelSmall{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formFieldButton{	
+	width:74px;
+	height:19px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background-color:#D8D3D0;
+	border:1px solid #5B4A42;
+	
+}
+.formFieldButtonPos{
+	text-align:center;		
+}
+
+.tdContainerContentConfirm{
+	vertical-align:top;
+	width:100%;
+	height:389px;
+	text-align:left;
+	background:url(../img/sfondo_confirm.jpg) top left repeat;
+}
+
+.confirmPULeft{
+	text-align:right;
+	vertical-align:top;
+	/*padding-left:22px;*/
+	width:193px;
+}
+.confirmPURightConfirm{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	text-align:left;
+	vertical-align:top;
+	padding-left:90px;
+	padding-top:118px;
+}
+.tdScadLista{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:13px;
+	color:#47352C;
+	text-align:center;
+	vertical-align:middle;
+}
+.txtPrenota{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	text-align:left;
+	vertical-align:top;
+	padding-top:5px;
+	padding-bottom:0px;
+	padding-left:10px;
+	padding-right:10px;
+}
+.txtTitolo{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:left;
+	vertical-align:bottom;
+	padding-top:0px;
+	padding-bottom:5px;
+	padding-left:10px;
+	padding-right:40px;
+	min-width:150px;
+}
+.txteuro{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:right;
+	vertical-align:bottom;
+	padding-top:0px;
+	padding-bottom:5px;
+	padding-left:40px;
+	padding-right:5px;
+}
+.txtCarrello{
+	text-align:center;
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:20px;
+	padding-right:0px;
+}
+.txtCheckbox{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:right;
+	vertical-align:top;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:0px;
+}
+.txtqta{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:right;
+	vertical-align:top;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:0px;
+	width:160px;
+}
+.txtPrenotaCard{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	text-align:right;
+	vertical-align:top;
+	padding-top:5px;
+	padding-bottom:0px;
+	padding-left:20px;
+	padding-right:15px;
+}
+.attachSmallCard{
+	padding-left:0px;
+	padding-right:5px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.tdAttachments{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.txteuroCard{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:right;
+	vertical-align:bottom;
+	padding-top:0px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:5px;
+}
+.txteuroCard2{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	text-align:left;
+	vertical-align:bottom;
+	padding-top:0px;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:0px;
+}
+.txtComposeForm{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000000;
+	padding-right:10px;
+}
+.txtComposeFormSmall{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#000000;
+	padding-right:0px;
+}

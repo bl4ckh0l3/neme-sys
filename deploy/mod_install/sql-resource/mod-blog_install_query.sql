@@ -1,0 +1,1 @@
+INSERT INTO `module_portal` (`keyword`, `descrizione`, `version`, `active`) VALUES ('mod-blog', 'blog module installation', 'buildVersSql', '1');

@@ -1,0 +1,84 @@
+.tdContent {
+	width: 536px; 
+	text-align: left; 
+	vertical-align: top;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #605E5E;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	padding-left: 0px;
+	padding-right: 5px;
+	padding-top: 30px;
+	padding-bottom: 40px;
+	height: 450px;
+}
+
+.tdContentDx{
+	width: 242px; 
+	text-align: center; 
+	vertical-align: top;
+	background-color: #3B4248;
+	padding-top:35px;
+	padding-left:5px;
+}
+.tableClientiAttachment{
+	width: 211px; 
+	text-align: center; 
+	vertical-align: top;
+	background-color: #E4E4CC;	
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #736F6E;
+	text-decoration: none;
+}
+.tableClientiAttachment td{
+	text-align: center; 
+	vertical-align: top;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+.txtDidaClientiAttachment{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #736F6E;
+	text-decoration: none;	
+	padding-top: 6px;
+	padding-bottom: 12px;
+}
+.imgTitoloNewsClienti{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FA8500;	
+	padding-left: 12px;	
+	padding-top: 1px;
+}
+.titoloNewsClienti{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FA8500;	
+	padding-left: 6px;
+}
+.sottoTitoloNewsClienti{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #69A4A8;	
+	padding-left: 10px;
+}
+.testoNewsClienti{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #605E5E;	
+	padding-left: 10px;
+}
+.tableClienti{
+	width: 490px; 	
+}
+.tableClienti td{
+	text-align: left; 
+	vertical-align: top;
+	/*padding-left: 3px;*/
+	padding-right: 0px;
+}

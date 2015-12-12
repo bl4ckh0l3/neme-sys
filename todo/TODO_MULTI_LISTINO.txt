@@ -1,0 +1,80 @@
+creare tabella USER_GROUP
+			id int(11)
+			scort_desc varchar(100) - descrizione fissa o chiave multilingua, da usare nelle combobox
+			long_desc text - note descrittive da visualizzare nel menù user group della console di amministrazione
+			
+creare tabella MARGIN_DISCOUNT
+			id int(11)
+			margin decimal(10,2) - solo valori positivi, calcolati in aggiunta
+			discount decimal(10,2) - solo valori positivi, calcolati in sottrazione
+			apply_prod_discount int(1) - boolean che indica se applicare lo sconto specificato per singolo prodotto
+			apply_user_discount int(1) - boolean che indica se applicare lo sconto specificato per singolo cliente
+			
+creare tabella USR_GROUP_X_MARGIN_DISC
+			id_marg_disc int(11)
+			id_user_group int(11)
+			chiave univoca per i due valori, ogni user group  può avere un solo margine associato
+			contraint, possono esserci solo valori esistenti nelle due tabelle USER_GROUP e MARGIN_DISCOUNT
+			
+creare il Bean UserGroup
+			metodi get/set
+			metodi insert/update/delete
+			metodi recupero lista userGroup
+			metodi recupero marginDiscount dato idGroup
+			
+creare il Bean MarginDiscount
+			metodi get/set
+			metodi insert/update/delete
+			metodi recupero lista marginDiscount
+			metodi di calcolo margine/sconto
+			
+creare tutte le pagine di interfaccia per la gestione degli user group e dei margin discount
+			nelle pagine di gestione degli user group prevedere inserimento/modifica/cancellazione
+			di user group;
+			
+			nelle pagine di gestione margini e sconti prevere l'inserimento dei valori specifici e l'associazione au uno user group specifico
+			usare combobox selezione multipla per associare il singolo margine a più user_group contemporaneamente
+
+NELLA PAGINA DI MODIFICA MARGINI, PER ASSOCIARE I GRUPPI UTENTI AL MARGINE UTILIZZARE LA STESSA LOGICA DEI TARGET NELLE PAGINE DI INSERIMENTO CONTENUTI
+E PRODOTTI
+
+			
+aggiungere agli utenti il concetto di userGroup
+			prevedere il concetto di user group di default
+			
+integrare nuova logica di calcolo nei file:
+			/editor/ordini/inserisciordine2.asp
+			/editor/ordini/InserisciOrdine3.asp (solo modifica per visualizzazione)
+			/editor/ordini/processordine2.asp
+			/shopping-card/processcarrello.asp
+			/shopping-card/include/init1.inc
+			/shopping-card/include/init2.inc
+			/shopping-card/include/initContent1.inc
+			/shopping-card/include/initContent2.inc
+			
+la variabile di configurazione manage_sconti viene utilizzata se non è presente nessun user group o se per un determinato utente non è stato impostato, va visto come un default
+in particolare creare metodo nella classe MarginDiscount che dato l'importo, lo sconto prodotto e lo sconto cliente, restituisca l'importo finale
+con tutte le logiche di margine e sconto applicate
+
+valutare se nel template dei prodotti, applicare la logica di margini/sconti in visualizzazione quando l'utente è loggato, o se lasciare come adesso, con la sola applicazione dello sconto prodotto quando previsto
+
+
+
+
+
+
+
+
+
+
+
+
+LISTA NUOVI FILE DA AGGIUNGERE ALLO ZIP DI UPGRADE DA CMS A ECOMMERCE UNA VOLTA COMPLETATA LA GESTIONE DEL MULTI LISTINO:
+
+/common/include/Objects/MarginDiscountClass.asp
+/common/include/Objects/UserGroupClass.asp
+/editor/margini/*
+		
+			
+
+

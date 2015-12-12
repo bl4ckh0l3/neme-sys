@@ -1,0 +1,24 @@
+.tdContainerContentIndex{
+	background:url(../img/sfondo_dx.jpg) top left repeat-x;
+	height:389px;
+	text-align:center;
+	/*padding-left:59px;
+	padding-right:0px;*/
+}
+.tdContainerContent{
+	background:url(../img/sfondo_dx.jpg) top left repeat-x;
+	height:389px;
+	text-align:center;
+	/*padding-left:0px;
+	padding-right:0px;*/
+}
+
+.tdBottom{
+	text-align:center;
+	/*padding-left:59px;
+	padding-top:4px;*/
+}
+
+.tdHeaderBott{
+	padding-left:59px;
+}

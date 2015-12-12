@@ -1,0 +1,26 @@
+﻿per gestire iva differenziata in base a utente privato/società e paese di spedizione
+
+- aggiungere a tabella tax_group_value il campo `exclude_calculation` SMALLINT(1) UNSIGNED NOT NULL default '0';
+- aggiungere alle tabelle shipping_address e order_shipping_address il campo `is_company_client` SMALLINT(1) UNSIGNED NOT NULL default '0';
+
+ALTER TABLE `order_shipping_address` ADD `is_company_client` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `shipping_address` ADD `is_company_client` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `tax_group_value` ADD `exclude_calculation` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+
+
+logica funzionale:
+
+quando l'utente effettua un acquisto, alla selezione del paese di spedizione viene applicata 
+la tassazione specificata nel gruppo tasse associato al country;
+se in contemporanea l'utente seleziona il nuovo flag "cliente società" legato all'indirizzo di spedizione, viene fatto un controllo per cui
+se il country associato ha il flag exclude_calculation a true e il cliente è una società, viene escluso il calcolo delle tasse.
+questa logica va applicata in tutte le fasi di navigazione e acquisto;
+se l'utente non è loggato funziona come adesso;
+se l'utente è loggato ma non ha mai fatto ordini vale come se non loggato;
+se l'utente è loggato e ha già fatto ordini, anche il catalogo visualizzerà la tassazione corretta, 
+	che sarà modificata se nel carrello l'utente seleziona un indirizzo di spedizione differente;
+se l'utente non è loggato e fa un acquisto spot senza registrazione, il calcolo delle tasse avviene solo nella pagina carrello;
+
+la stessa logica va applicata anche nel BO nella pagine degli ordini;
+
+come avviene attualmente, la priorità di calcolo tasse viene data al gruppo utenti, che sovrascrive le altre opzioni, compresa questa dell'utente società

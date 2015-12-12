@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>AnythingSlider Expanding Demo</title>
+
+	<!-- jQuery (required) -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+
+	<!-- Anything Slider -->
+	<link rel="stylesheet" href="anythingslider.css">
+	<link rel="stylesheet" href="theme-metallic.css">
+	<script src="jquery.anythingslider.min.js"></script>
+	<script>
+	$(function () {
+		$('#slider1').anythingSlider({
+			theme           : 'metallic',
+			easing          : 'easeInOutBack',
+			navigationFormatter : function(index, panel){
+			return ['Slab', 'Parking Lot', 'Drive', 'Glorius Dawn', 'Bjork?', 'Traffic Circle'][index - 1];
+			},
+			expand       : false,
+			autoPlay            : true,     // If true, the slideshow will start running; replaces "startStopped" option 
+			pauseOnHover        : true,      // If true & the slideshow is active, the slideshow will pause on hover 
+			buildArrows         : false,      // If true, builds the forwards and backwards buttons 
+			//buildNavigation     : false,
+			//buildStartStop      : false,      // If true, builds the start/stop button 
+			autoPlayLocked      : true,
+			navigationSize      : false
+		});
+		
+		
+		
+		/*$('#slider1').anythingSlider({
+			theme           : 'metallic',
+			easing          : 'easeInOutBack',
+			navigationFormatter : function(index, panel){
+			return ['Slab', 'Parking Lot', 'Drive', 'Glorius Dawn', 'Bjork?', 'Traffic Circle'][index - 1];
+			},
+			onSlideComplete : function(slider){
+			// alert('Welcome to Slide #' + slider.currentPage);
+			}
+		});*/	
+	});
+	</script>
+
+<STYLE type="text/css">
+#slider1 { width: 1000px; height: 600px; list-style: none; }
+</style>
+</head>
+
+<body id="expand">
+
+<div id="wrapper1">
+	<ul id="slider1">
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_5508.jpg" alt=""></a></li>
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_6284.jpg" alt=""></a></li>
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_6317.jpg" alt=""></a></li>
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_6376.jpg" alt=""></a></li>
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_6669.jpg" alt=""></a></li>
+		<li><a href="http://www.blackholenet.com"><img src="images/IMG_6680.jpg" alt=""></a></li>
+	</ul>
+</div>
+	
+</body>
+
+</html>

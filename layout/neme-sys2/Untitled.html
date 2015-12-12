@@ -1,0 +1,351 @@
+<div id="prodotto-conto">
+						
+						<div class="spese-div">
+            Totale Prodotti:&nbsp;<strong>€&nbsp;0,25</strong>
+						<br>
+                          
+            </div>
+
+
+						<form name="form_insert_carrello" method="post" action="/public/templates/shopping-card/ProcessCarrello.asp">
+                
+            
+						<div class="spese-div">
+            <strong>Spese accessorie:</strong><br> 
+              <b>imballaggio</b><br>	
+                  <script language="Javascript">
+                  listBills4Order.put("imballaggio-4-0","2");
+                  </script>
+                  
+                    <input type="radio" value="4" id="imballaggio-4-0" name="imballaggio" onclick="javascript:calculateBills4Order('0,25','1','1');"> imballaggio standard&nbsp;&nbsp;&nbsp;€&nbsp;2,00&nbsp;&nbsp;<br>					
+                  	
+                  <script language="Javascript">
+                  listBills4Order.put("imballaggio-5-0","0,009");
+                  </script>
+                  
+                    <input type="radio" value="5" id="imballaggio-5-0" name="imballaggio" onclick="javascript:calculateBills4Order('0,25','1','1');"> imballaggio premium&nbsp;&nbsp;&nbsp;€&nbsp;0,01&nbsp;&nbsp;<br>					
+                  
+            </div>
+            
+						
+            <div class="spese-div">
+						<input type="hidden" name="id_carrello" value="785">
+						  <strong>Tipo pagamento:</strong><br>	
+						  
+						  
+
+						<script language="Javascript">
+						
+						listPaymentMethods.put("6","2|2");	
+						
+						listPaymentMethods.put("1","0|1");	
+						
+						listPaymentMethods.put("2","10,5|1");	
+						
+						</script>
+						<ul>
+						  
+								<li><input type="radio" onclick="javascript:calculatePaymentCommission('0,25',6,'1','1');" value="6" name="tipo_pagam"> Carta di Credito&nbsp;<img border="0" src="/common/img/credit_cards.png"></li>
+						  
+								<li><input type="radio" onclick="javascript:calculatePaymentCommission('0,25',1,'1','1');" value="1" name="tipo_pagam"> Paypal&nbsp;<a height="350&quot;);" width="400," resizable="yes," scrollbars="yes," menubar="no," status="no," directories="no," location="no," onclick="javascript:window.open(&quot;https://www.paypal.com/us/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside&quot;,&quot;olcwhatispaypal&quot;,&quot;toolbar=no," href="#"><img border="0" alt="Acceptance Mark" src="https://www.paypal.com/en_US/i/logo/PayPal_mark_50x34.gif"></a></li>
+						  
+								<li><input type="radio" onclick="javascript:calculatePaymentCommission('0,25',2,'1','1');" value="2" name="tipo_pagam"> preventivo&nbsp;</li>
+						  
+						</ul>
+               
+						</div>
+						
+				<div class="spese-div">
+					<strong>Acquista senza registrazione</strong><br>
+					<select id="buy_noreg" name="buy_noreg">
+					  <option selected="" value="0">No</option>
+					  <option value="1">Si</option>
+					</select>
+					
+					<div id="show_buy_noreg" style="display: block;">
+					<ul>
+					<li><span>E-mail (*)</span></li>
+					<li><input type="text" value="" id="noreg_email" name="noreg_email"></li><br>
+					</ul>
+					
+				   <!--******** GESTIONE FIELDS UTENTE PERSONALIZZATI ********-->
+			
+					
+				  <!--******** FINE GESTIONE FIELDS UTENTE PERSONALIZZATI ********-->  					
+					</div>				
+				</div>
+	
+				<script>
+					
+					$("#show_buy_noreg").hide();
+					
+
+					$('#buy_noreg').change(function() {
+						var val_buy_noreg = $('#buy_noreg').val();
+		
+						if(val_buy_noreg==1){
+							$("#show_buy_noreg").show();
+
+							
+									$("#card_shipping_address").show();
+								
+								$("#card_bills_address").show();			
+							                
+						}else{
+							$("#show_buy_noreg").hide();
+
+							if ($("#card_shipping_address").length &gt; 0){
+								$("#card_shipping_address").hide();
+							}
+							if ($("#card_shipping_address").length &gt; 0){
+								$("#card_bills_address").hide();	
+							}
+						}
+					});
+				</script>
+			
+
+              <div id="card_shipping_address" class="spese-div" style="display: block;">
+              <div align="left" onclick="javascript:showHideDiv('divShipCost')"><strong>
+			  Indirizzo di spedizione
+			  </strong>:<img width="12" vspace="0" hspace="4" height="16" border="0" align="absmiddle" title="Modifica indirizzo di spedizione" src="/common/img/refresh.gif"><br>
+              
+              </div>
+              <div id="divShipCost">
+                <div>
+                	<strong>Nome</strong>
+                	<input type="text" value="" name="ship_name" id="ship_name">
+                </div>
+                
+                
+                <div>
+                <strong>Cognome</strong
+                <input type="text" value="" name="ship_surname" id="ship_surname">
+                </div>
+                
+                
+                <div>
+                <strong>Cod fisc. - PIVA</strong>
+                <input type="text" value="" name="ship_cfiscvat" id="ship_cfiscvat">
+                </div>
+                
+                
+                <div>
+                <strong>Indirizzo</strong>
+                <input type="text" value="" name="ship_address" id="ship_address"></div>
+                
+                
+                <div><strong>CAP</strong>
+                <input type="text" value="" name="ship_zip_code" id="ship_zip_code"></div>
+                
+                <div>
+                <strong>Città</strong>
+                <input type="text" value="" name="ship_city" id="ship_city">
+                </div>
+
+			  <div>
+			  <strong>Paese</strong>
+			  <select name="ship_country" id="ship_country">
+			  <option value=""></option>
+					<option value="AF">Afghanistan</option>     
+					<option value="AX">Aland Islands</option>     
+					<option value="AL">Albania</option>     
+					<option value="DZ">Algeria</option>     
+					<option value="AS">American Samoa</option>     
+					<option value="AD">Andorra</option>     
+					<option value="AO">Angola</option>     
+					<option value="AI">Anguilla</option>     
+					<option value="AQ">Antarctica</option>     
+					<option value="AG">Antigua and Barbuda</option>     
+					<option value="AR">Argentina</option>     
+					<option value="AM">Armenia</option>     
+					<option value="AW">Aruba</option>     
+					<option value="AU">Australia</option>     
+					<option value="AT">Austria</option>     
+			  </select> 
+			  </div>
+			  
+			  
+				<div>
+					<strong>Stato/Regione</strong>	 
+			  		<select id="ship_state_region" name="ship_state_region">
+			  			<option value=""></option>
+					</select>	
+			  	</div>
+				<script>
+				// se � stata modificato country al refresh ripristino i valori dei campi utente personalizzati
+					
+
+				$('#ship_country').change(function() {
+					$('#prodotto-totale').hide();					
+
+					var query_string = "?ship_country="+escape($('#ship_country').val())
+					query_string+="&amp;ship_state_region="
+					query_string+="&amp;buy_noreg="+escape($('#buy_noreg').val());
+
+					query_string+="&amp;noreg_email="+escape($('#noreg_email').val());
+
+					query_string+="&amp;ship_name="+escape($('#ship_name').val());
+					query_string+="&amp;ship_surname="+escape($('#ship_surname').val());
+					query_string+="&amp;ship_cfiscvat="+escape($('#ship_cfiscvat').val());
+					query_string+="&amp;ship_address="+escape($('#ship_address').val());
+					query_string+="&amp;ship_zip_code="+escape($('#ship_zip_code').val());
+					query_string+="&amp;ship_city="+escape($('#ship_city').val());
+
+					
+					query_string+="&amp;bills_name="+escape($('#bills_name').val());
+					query_string+="&amp;bills_surname="+escape($('#bills_surname').val());
+					query_string+="&amp;bills_cfiscvat="+escape($('#bills_cfiscvat').val());
+					query_string+="&amp;bills_address="+escape($('#bills_address').val());
+					query_string+="&amp;bills_zip_code="+escape($('#bills_zip_code').val());
+					query_string+="&amp;bills_city="+escape($('#bills_city').val());
+					query_string+="&amp;bills_country="+escape($('#bills_country').val());
+					query_string+="&amp;bills_state_region="+escape($('#bills_state_region').val());
+					
+
+					var url = '/public/templates/shopping-card/carrello2.asp'+query_string;
+
+					window.location.href = url;
+				});
+
+				$('#ship_state_region').change(function() {
+					$('#prodotto-totale').hide();
+
+					var query_string = "?ship_country="+escape($('#ship_country').val())
+					query_string+="&amp;ship_state_region="+escape($('#ship_state_region').val())
+					query_string+="&amp;buy_noreg="+escape($('#buy_noreg').val());
+
+					query_string+="&amp;noreg_email="+escape($('#noreg_email').val());
+
+					query_string+="&amp;ship_name="+escape($('#ship_name').val());
+					query_string+="&amp;ship_surname="+escape($('#ship_surname').val());
+					query_string+="&amp;ship_cfiscvat="+escape($('#ship_cfiscvat').val());
+					query_string+="&amp;ship_address="+escape($('#ship_address').val());
+					query_string+="&amp;ship_zip_code="+escape($('#ship_zip_code').val());
+					query_string+="&amp;ship_city="+escape($('#ship_city').val());
+
+					
+					query_string+="&amp;bills_name="+escape($('#bills_name').val());
+					query_string+="&amp;bills_surname="+escape($('#bills_surname').val());
+					query_string+="&amp;bills_cfiscvat="+escape($('#bills_cfiscvat').val());
+					query_string+="&amp;bills_address="+escape($('#bills_address').val());
+					query_string+="&amp;bills_zip_code="+escape($('#bills_zip_code').val());
+					query_string+="&amp;bills_city="+escape($('#bills_city').val());
+					query_string+="&amp;bills_country="+escape($('#bills_country').val());
+					query_string+="&amp;bills_state_region="+escape($('#bills_state_region').val());
+					
+
+					var url = '/public/templates/shopping-card/carrello2.asp'+query_string;
+
+					window.location.href = url;
+				});
+				
+				
+				</script>
+              </div>            
+            </div>
+	
+			<script>
+				$("#card_shipping_address").hide();
+
+				
+			</script>
+
+
+            
+
+              <div id="card_bills_address" class="spese-div" style="display: block;">
+              <div align="left" onclick="javascript:showHideDiv('divBillsCost')"><strong>Dati fatturazione</strong>:<img width="12" vspace="0" hspace="4" height="16" border="0" align="absmiddle" title="Modifica dati fatturazione" src="/common/img/refresh.gif"><br>
+              
+              </div>
+              <div align="left" style="visibility: visible; display: block;" id="divBillsCost">
+                <br><div style="float: left;"><strong>Nome</strong><br>
+                <input type="text" value="" name="bills_name" id="bills_name"></div>
+                <div><strong>Cognome</strong><br>
+                <input type="text" value="" name="bills_surname" id="bills_surname"></div>
+                <div><strong>Cod fisc. - PIVA</strong><br>
+                <input type="text" value="" name="bills_cfiscvat" id="bills_cfiscvat"></div>
+                <div style="float: left;"><strong>Indirizzo</strong><br>
+                <input type="text" value="" name="bills_address" id="bills_address"></div>
+                
+                
+                <div>
+                	<strong>CAP</strong>
+                	<input type="text" value="" name="bills_zip_code" id="bills_zip_code">
+                </div>
+                
+                
+                <div>
+               		<strong>Città</strong>
+               		<input type="text" value="" name="bills_city" id="bills_city">
+                </div>
+
+			  <div>
+			  		<strong>Paese</strong>
+			  
+			 	 	<select name="bills_country" id="bills_country">
+			  			<option value="">Seleziona</option>
+						<option value="AF">Afghanistan</option>     
+						<option value="AX">Aland Islands</option>     
+						<option value="AL">Albania</option>     
+						<option value="DZ">Algeria</option>     
+						<option value="AS">American Samoa</option>     
+						<option value="AD">Andorra</option>     
+						<option value="AO">Angola</option>     
+						<option value="AI">Anguilla</option>     
+						<option value="AQ">Antarctica</option>     
+			  		</select>  
+			  </div>
+			  
+			  <div>
+			  		<strong>Stato/Regione</strong><br>	 
+			 		<select id="bills_state_region" name="bills_state_region">
+			  				<option value=""></option>
+				
+			  		</select>	  
+			  </div>
+				<script>
+				$('#bills_country').change(function() {
+					var type_val_ch = $('#bills_country').val();
+					var query_string = "field_val="+escape(type_val_ch);
+
+					$.ajax({
+						async: true,
+						type: "GET",
+						cache: false,
+						url: "/common/include/ajaxstateregionlistupdate.asp",
+						data: query_string,
+						success: function(response) {
+							//alert("response: "+response);
+							$("select#bills_state_region").empty();
+							$("select#bills_state_region").append($("&lt;option&gt;&lt;/option&gt;").attr("value","").text(""));
+							$("select#bills_state_region").append(response);
+						},
+						error: function() {
+							$("select#bills_state_region").empty();
+							$("select#bills_state_region").append($("&lt;option&gt;&lt;/option&gt;").attr("value","").text(""));
+						}
+					});		
+				});
+				</script> 
+              </div>
+                           
+            </div>
+	
+			<script>
+				$("#card_bills_address").hide();
+			</script>
+                    
+            
+            <div id="spese-totale">
+			  Commissioni metodo pagamento: <strong>€&nbsp;<span class="payment_commission">0,00</span></strong><br><br> 
+              Totale ordine: <strong>€&nbsp;<span class="ord_total">0,25</span></strong>
+			<br><span id="currency">La transazione verrà effettuata in&nbsp;Euro&nbsp;per un valore di:&nbsp;€&nbsp;<span class="ord_total_def_curr">0,25</span></span>
+			</div>
+
+            <div id="prodotto-totale">
+				<a href="javascript:sendCarrello(1);">Invia ordine</a>&nbsp;&nbsp;
+				<a href="/public/templates/shopping-card/DeleteCarrello.asp?id_carrello_to_delete=785">Svuota carrello</a>
+			</div>
+            </form>			
+					</div>

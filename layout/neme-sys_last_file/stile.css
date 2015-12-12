@@ -1,0 +1,36 @@
+* {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BACKGROUND: url(images/body-bg.jpg) #000 no-repeat center top; MARGIN: 0px auto; FONT: 80%/120% Helvetica, Arial, sans-serif; TEXT-ALIGN: center
+}
+.menu {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 30px auto 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.menu LI {
+	PADDING-RIGHT: 0px; DISPLAY: inline-block; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 2px; PADDING-TOP: 0px; POSITION: relative; TEXT-ALIGN: center
+}
+A IMG {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+.menu A {
+	DISPLAY: block; FONT-WEIGHT: bold; BACKGROUND: url(images/button.gif) no-repeat center center; WIDTH: 100px; BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none
+}
+.menu LI EM {
+	PADDING-RIGHT: 0.5em; DISPLAY: none; PADDING-LEFT: 0.5em; FONT-SIZE: 80%; Z-INDEX: 5; BACKGROUND: url(images/hover.png) #fff no-repeat; LEFT: -5px; PADDING-BOTTOM: 1em; WIDTH: 100px; PADDING-TOP: 1em; FONT-STYLE: normal; POSITION: absolute; TOP: -40px; TEXT-ALIGN: center
+}
+.menu LI SPAN {
+	DISPLAY: none; Z-INDEX: 2; LEFT: 0px; POSITION: absolute
+}
+#content {
+	MIN-HEIGHT: 308px; BACKGROUND: url(images/content-bg.jpg) no-repeat center top; MARGIN: 0px auto; WIDTH: 800px; COLOR: #fff; TEXT-ALIGN: left
+}
+#content H2 {
+	PADDING-RIGHT: 3.5em; PADDING-LEFT: 3.5em; PADDING-BOTTOM: 1em; TEXT-TRANSFORM: uppercase; PADDING-TOP: 1em; FONT-FAMILY: "Trebuchet MS", Arial, Helvetica, sans-serif; TEXT-ALIGN: left
+}
+#content P {
+	PADDING-RIGHT: 5em; PADDING-LEFT: 5em; PADDING-BOTTOM: 1em; PADDING-TOP: 1em
+}
+#header {
+	FONT-WEIGHT: normal; FONT-SIZE: 250%; MARGIN: 380px 0px 0px; COLOR: #fff
+}

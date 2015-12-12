@@ -1,0 +1,1 @@
+INSERT INTO `module_portal` (`keyword`, `descrizione`, `version`, `active`) VALUES ('mod-ads', 'ads module installation', 'buildVersSql', '1');

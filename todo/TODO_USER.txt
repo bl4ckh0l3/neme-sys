@@ -1,0 +1,108 @@
+creare tabella USER_FIELDS
+			id int(11)				chiave primaria;
+			description varchar(50)	descrizione;
+			id_group int(11)		gruppo (Dati Personali,Domicilio e recapiti,Dati Società,Varie);
+			type int(11)			tipo campo (input, textarea, combo, combo multipla, checkbox, radio);
+			order int(3)			ordine di comparsa del campo nell'interfaccia;
+			required int(1)			facoltativo/obbligatorio;
+			enabled int(1)			abilitato/disabilitato;
+			
+creare tabella USER_FIELDS_GROUP
+			id int(11)				chiave primaria;
+			description varchar(50)	descrizione;
+			order int(3)			ordine di comparsa del gruppo nell'interfaccia;
+			
+creare tabella USER_FIELDS_TYPE
+			id int(11)				chiave primaria;
+			description varchar(50)	descrizione;
+			
+creare tabella USER_FIELDS_MATCH
+			id_field int(11)				riferimento all'id del field;
+			id_user int(11)				riferimento all'id dell'utente;
+			value varchar(250)			valore associato al campo per l'utente selezionato;
+
+
+
+creare il Bean UserField
+			metodi get/set
+			metodi insert/update/delete
+			metodi recupero lista userFields
+			metodi recupero field dato idField
+			
+			creare Metodi per UserFieldType
+			metodi recupero lista fields type
+			metodi recupero type dato idType
+			
+			creare Metodi per UserFieldMatch
+			metodi insert/update/delete
+			metodi recupero match dato idField e idUser
+			
+creare il Bean UserFieldGroup
+			metodi get/set
+			metodi insert/update/delete
+			metodi recupero lista userGroup
+			metodi recupero fieldGroup dato idGroup
+			
+			
+			
+lista file attuali da modificare:
+			/deploy/snippet/cms/common/include/Objects/UserClass.asp
+			/deploy/snippet/cms/area_user/manageuser.asp		
+			/deploy/snippet/cms/area_user/userprofile.asp
+			/deploy/snippet/cms/area_user/include/init2.inc
+			/deploy/snippet/cms/area_user/include/initContent7.inc
+			/deploy/snippet/cms/editor/utenti/inserisciutente.asp
+			/deploy/snippet/cms/editor/utenti/include/init2.asp
+			/deploy/snippet/cms/editor/utenti/mail_notif/mail_utente_admin.asp
+			/deploy/snippet/cms/editor/utenti/mail_notif/mail_utente_guest.asp
+			
+			/deploy/snippet/demo/editor/utenti/listautenti.asp
+
+			/src/portal/common/include/Objects/UserClass.asp
+			
+			/src/portal/area_user/userprofile.asp
+			/src/portal/area_user/include/init7.inc
+			/src/portal/area_user/include/initStyleAndJs7.inc
+			/src/portal/area_user/include/initContent7.inc
+			/src/portal/area_user/manageuser.asp
+			/src/portal/area_user/include/init2.inc
+			/src/portal/area_user/include/initStyleAndJs2.inc
+			/src/portal/area_user/include/initContent2.inc
+			/src/portal/area_user/friendlist.asp
+			/src/portal/area_user/include/init9.inc
+			/src/portal/area_user/include/initStyleAndJs9.inc
+			/src/portal/area_user/include/initContent9.inc
+			/src/portal/area_user/publicprofile.asp
+			/src/portal/area_user/include/init8.inc
+			/src/portal/area_user/include/initStyleAndJs8.inc
+			/src/portal/area_user/include/initContent8.inc
+			/src/portal/area_user/processusersito.asp
+			
+			/src/portal/editor/utenti/listautenti.asp
+			/src/portal/editor/utenti/inserisciutente.asp
+			/src/portal/editor/utenti/processutente.asp
+			/src/portal/editor/utenti/include/init.asp
+			/src/portal/editor/utenti/include/init2.asp
+			/src/portal/editor/utenti/mail_notif/mail_pwd_guest.asp
+			/src/portal/editor/utenti/mail_notif/mail_utente_admin.asp
+			/src/portal/editor/utenti/mail_notif/mail_utente_guest.asp
+			
+			/src/portal/editor/report/createusercsv.asp
+			/src/portal/editor/report/createuserexcel.asp
+	
+			/db/mysql/backup_constraints.sql
+			/db/mysql/backup_data.sql
+			/db/mysql/backup_news_find_view.sql
+			/db/mysql/backup_tables.sql
+			/db/mysql/global_install_query_demo.sql
+			/db/mysql/global_install_query_ec.sql
+			/db/mysql/global_install_query.sql
+			/db/mysql/global_install_query_upto_ec.sql
+			/db/mysql/global_reload_query_demo.sql
+			
+	
+Nelle pagine della lista utenti, lista amici e report eliminare i riferimenti ai campi nome, cognome, data nascita, sesso, ecc ...vanno visualizzati solo i campi di default che saranno lasciati nella tabella utenti;
+
+Nelle pagine di inserimento/modifica/visualizzazione dei fields dell'utente, il recupero e la visualizzazione avverrà con i nuovi meccanismi, in base ai campi abilitati e con l'ordine stabilito nelle nuove tabelle;
+	
+Nel backoffice, nella sezione utenti, prevedere dei TAB, stile margine(da valutare) dove il primo sarà quello della lista utenti, gli altri serviranno per gestire i campi associati agli utenti (lista campi, modifica campo, ecc);

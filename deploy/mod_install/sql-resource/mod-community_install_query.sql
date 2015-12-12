@@ -1,0 +1,1 @@
+INSERT INTO `module_portal` (`keyword`, `descrizione`, `version`, `active`) VALUES ('mod-community', 'community module installation', 'buildVersSql', '1');

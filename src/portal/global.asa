@@ -1,0 +1,653 @@
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=conquerChatUsers
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=conquerChatRooms
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=conquerChatMessages
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=languageResources
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=objListPairKeyValueLocale
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+<OBJECT RUNAT=Server
+	SCOPE=Application
+	ID=onlineUsersList
+	PROGID="Scripting.Dictionary">
+</OBJECT>
+
+
+<SCRIPT LANGUAGE=VBScript RUNAT=Server>
+option explicit
+
+Dim objConn
+Sub Application_OnStart()
+	Application("active_users")=0	
+	Application("baseroot")=""
+	Application("error_page")="/common/include/error.asp"
+	
+	'**** questa variabile serve per gestire il refresh delle valute sulla sessione utente
+	Application("refresh_currency_time") = now()
+	
+	'**** DB Type
+	'**** Type: 0 = Access
+	'**** Type: 1 = others
+	Application("dbType") = 1	
+	
+	if(Application("srt_dbconn") = "") then
+		Dim objFSO,configFile
+		
+		Set objFSO = Server.CreateObject("Scripting.FileSystemObject")		
+		Set configFile=objFSO.OpenTextFile(Server.MapPath("/public/conf/nemesi_config.xml"), 1)	
+		
+		Dim m_xmld, m_node, dbconn
+
+		'Create the XML Document: Msxml2.DOMDocument.3.0 oppure Microsoft.XMLDOM
+		Set m_xmld = Server.CreateObject("Microsoft.XMLDOM")
+
+		'Load the Xml file
+		m_xmld.loadXML(configFile.readAll())
+
+		'Get the servername of the xml file
+		Set m_node = m_xmld.SelectSingleNode("/config/srt_dbconn")
+		
+		dbconn = m_node.getAttribute("attr_srt_dbconn")
+		Application("srt_dbconn") = dbconn
+		
+		configFile.Close
+		
+		Set m_node = nothing
+		Set m_xmld = nothing	
+		Set configFile=Nothing			
+		Set objFSO = nothing
+	end if
+
+
+	Application("admin_role")=1
+	Application("editor_role")=2
+	Application("guest_role")=3
+	Application("guest_const")="guest"
+	Application("editor_const")="editor"
+	Application("admin_const")="administrator"
+	Application("controller_page")="/common/include/Controller.asp"
+	Application("unlimited_key")="-1111111111"
+	Application("strLangPrefix")="lang_"
+	Application("strCatPrefix")="cat_"
+	Application("strProdPrefix")="prod_"
+	Application("strProdCat")="products"
+	Application("strContentCat")="contents"
+	Application("strMixedCat")="mixed"
+	
+	'*** chiavi per la selezione di un destinatario mail
+	'Application("dest_aziende")=1
+	'Application("dest_partner")=2
+	'Application("dest_utenti")=3
+	'Application("dest_speciali")=4	
+	
+	if not(Application("srt_dbconn") = "") then
+		Set objConn = Server.CreateObject("ADODB.Connection")
+		objConn.ConnectionString = Application("srt_dbconn")	
+		Set Application("objConn") = objConn	
+		
+		'********* SETTO TUTTE LE VARIABILI APPLICATION RECUPERANDOLE DAL DB
+		Dim strSQLRs, objRS, strKey, strType, strTmp
+		objConn.Open()
+		strSQLRs = "SELECT * FROM config_portal"
+	
+		Set objRS = objConn.Execute(strSQLRs)		
+		if not(objRS.EOF) then
+			do while not objRS.EOF
+				strKey = objRS("keyword")
+				Application(strKey) = objRS("conf_value")
+				objRS.moveNext()			
+			loop
+		end if
+		Set objRS = Nothing		
+		
+		
+		'********* INSERISCO NELLA TABELLA DEI LOG L'AVVIO DELL'APPLICAZIONE
+		Dim dta_ins, DD, MM, YY, HH, MIN, SS
+		
+		dta_ins = Now()
+		DD = DatePart("d", dta_ins)
+		MM = DatePart("m", dta_ins)
+		YY = DatePart("yyyy", dta_ins)
+		HH = DatePart("h", dta_ins)
+		MIN = DatePart("n", dta_ins)
+		SS = DatePart("s", dta_ins)
+		dta_ins = YY&"-"&MM&"-"&DD&" "&HH&":"&MIN&":"&SS
+				
+		strSQLRs = "INSERT INTO logs(msg, usr, type, date_event) VALUES('Application started now - active users: "&Application("active_users")&"','system','debug','"&dta_ins&"');"
+	
+		objConn.Execute(strSQLRs)		
+		
+		objConn.Close()	
+	end if
+
+	
+	
+	'*********** CREO LA MAPPA DEI LOCALE CHE VERRANNO GESTITI DAL CMS E LA IMPOSTO COME VARIABILE Application	
+	'*********** DI SEGUITO L'ELENCO DI TUTTI I CODICI LOCALE INTERNAZIONALI
+	'Afrikaans  				af  		0x0436  	1078
+	'Albanian 					sq 		0x041C 	1052
+	'Arabic - United Arab Emirates 	ar-ae 	0x3801 	14337
+	'Arabic - Bahrain 			ar-bh 	0x3C01 	15361
+	'Arabic - Algeria 			ar-dz 	0x1401 	5121
+	'Arabic - Egypt 				ar-eg 	0x0C01 	3073
+	'Arabic - Iraq 				ar-iq 	0x0801 	2049
+	'Arabic - Jordan 			ar-jo 	0x2C01 	11265
+	'Arabic - Kuwait 			ar-kw 	0x3401 	13313
+	'Arabic - Lebanon 			ar-lb 	0x3001 	12289
+	'Arabic - Libya 				ar-ly 	0x1001 	4097
+	'Arabic - Morocco 			ar-ma 	0x1801 	6145
+	'Arabic - Oman 				ar-om 	0x2001 	8193
+	'Arabic - Qatar 				ar-qa 	0x4001 	16385
+	'Arabic - Saudi Arabia 		ar-sa 	0x0401 	1025
+	'Arabic - Syria 				ar-sy 	0x2801 	10241
+	'Arabic - Tunisia 			ar-tn 	0x1C01 	7169
+	'Arabic - Yemen 			ar-ye 	0x2401 	9217
+	'Armenian 				hy 		0x042B 	1067
+	'Azeri - Latin 				az-az 	0x042C 	1068
+	'Azeri - Cyrillic 				az-az 	0x082C 	2092
+	'Basque 					eu 		0x042D 	1069
+	'Belarusian 				be 		0x0423 	1059
+	'Bulgarian 				bg 		0x0402 	1026
+	'Catalan 					ca 		0x0403 	1027
+	'Chinese - China 			zh-cn 	0x0804 	2052
+	'Chinese - Hong Kong S.A.R. 	zh-hk 	0x0C04 	3076
+	'Chinese - Macau S.A.R 		zh-mo 	0x1404 	5124
+	'Chinese - Singapore 		zh-sg 	0x1004 	4100
+	'Chinese - Taiwan 			zh-tw 	0x0404 	1028
+	'Croatian 					hr 		0x041A 	1050
+	'Czech 					cs 		0x0405 	1029
+	'Danish 					da 		0x0406 	1030
+	'Dutch - The Netherlands 		nl-nl 	0x0413 	1043
+	'Dutch - Belgium 			nl-be 	0x0813 	2067
+	'English - Standard 			en 		0x0009 	9
+	'English - Australia 			en-au 	0x0C09 	3081
+	'English - Belize 			en-bz 	0x2809 	10249
+	'English - Canada 			en-ca 	0x1009 	4105
+	'English - Carribbean 		en-cb 	0x2409 	9225
+	'English - Ireland 			en-ie 	0x1809 	6153
+	'English - Jamaica 			en-jm 	0x2009 	8201
+	'English - New Zealand 		en-nz 	0x1409 	5129
+	'English - Phillippines 		en-ph 	0x3409 	13321
+	'English - South Africa 		en-za 	0x1C09 	7177
+	'English - Trinidad 			en-tt 	0x2C09 	11273
+	'English - United Kingdom 	en-gb 	0x0809 	2057
+	'English - United States 		en-us 	0x0409 	1033
+	'Estonian 					et 		0x0425 	1061
+	'Farsi 					fa 		0x0429 	1065
+	'Finnish 					fi 		0x040B 	1035
+	'Faroese 					fo 		0x0438 	1080
+	'French - Standard 			fr 		0x040C 	1036
+	'French - Belgium 			fr-be 	0x080C 	2060
+	'French - Canada 			fr-ca 	0x0C0C 	3084
+	'French - Luxembourg 		fr-lu 		0x140C 	5132
+	'French - Switzerland 		fr-ch 	0x100C 	4108
+	'Gaelic - Ireland 			gd-ie 	0x083C 	2108
+	'Gaelic - Scotland 			gd 		0x043C 	1084
+	'German - Standard 			de	 	0x0407 	1031
+	'German - Austria 			de-at 	0x0C07 	3079
+	'German - Liechtenstein 		de-li 		0x1407 	5127
+	'German - Luxembourg 		de-lu 	0x1007 	4103
+	'German - Switzerland 		de-ch 	0x0807 	2055
+	'Greek 					el 		0x0408 	1032
+	'Hebrew 					he 		0x040D 	1037
+	'Hindi 					hi 		0x0439 	1081
+	'Hungarian 				hu 		0x040E 	1038
+	'Icelandic 					is 		0x040F 	1039
+	'Indonesian 				id 		0x0421 	1057
+	'Italian - Standard			it 		0x0410 	1040
+	'Italian - Switzerland 		it-ch 	0x0810 	2064
+	'Japanese 					ja 		0x0411 	1041
+	'Korean 					ko 		0x0412 	1042
+	'Latvian 					lv 		0x0426 	1062
+	'Lithuanian 				lt 		0x0427 	1063
+	'FYRO Macedonian 			mk 		0x042F 	1071
+	'Malay - Malaysia 			ms-my 	0x043E 	1086
+	'Malay - Brunei 				ms-bn 	0x083E 	2110
+	'Maltese 					mt 		0x043A 	1082
+	'Marathi 					mr 		0x044E 	1102
+	'Norwegian - Bokmål 		no-no 	0x0414 	1044
+	'Norwegian - Nynorsk 		no-no 	0x0814 	2068
+	'Polish 					pl 		0x0415 	1045
+	'Portuguese - Standard 		pt	 	0x0816 	2070
+	'Portuguese - Brazil 			pt-br 	0x0416 	1046
+	'Raeto-Romance 			rm 		0x0417 	1047
+	'Romanian - Romania 		ro 		0x0418 	1048
+	'Romanian - Moldova 		ro-mo 	0x0818 	2072
+	'Russian 					ru 		0x0419 	1049
+	'Russian - Moldova 			ru-mo 	0x0819 	2073
+	'Sanskrit 					sa 		0x044F 	1103
+	'Serbian - Cyrillic 			sr-sp 	0x0C1A 	3098
+	'Serbian - Latin 			sr-sp 	0x081A 	2074
+	'Setsuana 				tn 		0x0432 	1074
+	'Slovenian 				sl 		0x0424 	1060
+	'Slovak 					sk 		0x041B 	1051
+	'Sorbian 					sb 		0x042E 	1070
+	'Spanish - Standard 			es	 	0x0C0A 	1034
+	'Spanish - Argentina 		es-ar 	0x2C0A 	11274
+	'Spanish - Bolivia 			es-bo 	0x400A 	16394
+	'Spanish - Chile 			es-cl 	0x340A 	13322
+	'Spanish - Colombia 			es-co 	0x240A 	9226
+	'Spanish - Costa Rica 		es-cr 	0x140A 	5130
+	'Spanish - Dominican Republic 	es-do 	0x1C0A 	7178
+	'Spanish - Ecuador 			es-ec 	0x300A 	12298
+	'Spanish - Guatemala 		es-gt 	0x100A 	4106
+	'Spanish - Honduras 			es-hn 	0x480A 	18442
+	'Spanish - Mexico 			es-mx 	0x080A 	2058
+	'Spanish - Nicaragua 		es-ni 	0x4C0A 	19466
+	'Spanish - Panama 			es-pa 	0x180A 	6154
+	'Spanish - Peru 			es-pe 	0x280A 	10250
+	'Spanish - Puerto Rico 		es-pr 	0x500A 	20490
+	'Spanish - Paraguay 			es-py 	0x3C0A 	15370
+	'Spanish - El Salvador 		es-sv 	0x440A 	17418
+	'Spanish - Uruguay 			es-uy 	0x380A 	14346
+	'Spanish - Venezuela 		es-ve 	0x200A 	8202
+	'Sutu 					sx 		0x0430 	1072
+	'Swahili 					sw 		0x0441 	1089
+	'Swedish - Sweden 			sv-se 	0x041D 	1053
+	'Swedish - Finland 			sv-fi 		0x081D 	2077
+	'Tamil 					ta 		0x0449 	1097
+	'Tatar 					tt 		0X0444 	1092
+	'Thai 					th 		0x041E 	1054
+	'Turkish 					tr 		0x041F 	1055
+	'Tsonga 					ts 		0x0431 	1073
+	'Ukrainian 				uk 		0x0422 	1058
+	'Urdu 					ur 		0x0420 	1056
+	'Uzbek - Cyrillic 			uz-uz 	0x0843 	2115
+	'Uzbek - Latin 				uz-uz 	0x0443 	1091
+	'Vietnamese 				vi 		0x042A 	1066
+	'Xhosa 					xh 		0x0434 	1076
+	'Yiddish 					yi 		0x043D 	1085
+	'Zulu 					zu 		0x0435 	1077
+
+
+	objListPairKeyValueLocale.add "1078","AF" 
+	objListPairKeyValueLocale.add "1052","SQ"
+	objListPairKeyValueLocale.add "14337","AR"
+	objListPairKeyValueLocale.add "15361","AR"
+	objListPairKeyValueLocale.add "5121","AR"
+	objListPairKeyValueLocale.add "3073","AR"
+	objListPairKeyValueLocale.add "2049","AR"
+	objListPairKeyValueLocale.add "11265","AR"
+	objListPairKeyValueLocale.add "13313","AR"
+	objListPairKeyValueLocale.add "12289","AR"
+	objListPairKeyValueLocale.add "4097","AR"
+	objListPairKeyValueLocale.add "6145","AR"
+	objListPairKeyValueLocale.add "8193","AR"
+	objListPairKeyValueLocale.add "16385","AR"
+	objListPairKeyValueLocale.add "1025","AR"
+	objListPairKeyValueLocale.add "10241","AR"
+	objListPairKeyValueLocale.add "7169","AR"
+	objListPairKeyValueLocale.add "9217","AR"
+	objListPairKeyValueLocale.add "1067","HY"
+	objListPairKeyValueLocale.add "1068","AZ"
+	objListPairKeyValueLocale.add "2092","AZ"
+	objListPairKeyValueLocale.add "1069","EU"
+	objListPairKeyValueLocale.add "1059","BE"
+	objListPairKeyValueLocale.add "1026","BG"
+	objListPairKeyValueLocale.add "1027","CA"
+	objListPairKeyValueLocale.add "2052","ZH"
+	objListPairKeyValueLocale.add "3076","ZH"
+	objListPairKeyValueLocale.add "5124","ZH"
+	objListPairKeyValueLocale.add "4100","ZH"
+	objListPairKeyValueLocale.add "1028","ZH"
+	objListPairKeyValueLocale.add "1050","HR"
+	objListPairKeyValueLocale.add "1029","CS"
+	objListPairKeyValueLocale.add "1030","DA"
+	objListPairKeyValueLocale.add "1043","NL"
+	objListPairKeyValueLocale.add "2067","NL"
+	objListPairKeyValueLocale.add "9","EN"
+	objListPairKeyValueLocale.add "3081","EN"
+	objListPairKeyValueLocale.add "10249","EN"
+	objListPairKeyValueLocale.add "4105","EN"
+	objListPairKeyValueLocale.add "9225","EN"
+	objListPairKeyValueLocale.add "6153","EN"
+	objListPairKeyValueLocale.add "8201","EN"
+	objListPairKeyValueLocale.add "5129","EN"
+	objListPairKeyValueLocale.add "13321","EN"
+	objListPairKeyValueLocale.add "7177","EN"
+	objListPairKeyValueLocale.add "11273","EN"
+	objListPairKeyValueLocale.add "2057","EN"
+	objListPairKeyValueLocale.add "1033","EN"
+	objListPairKeyValueLocale.add "1061","ET"
+	objListPairKeyValueLocale.add "1065","FA"
+	objListPairKeyValueLocale.add "1035","FI"
+	objListPairKeyValueLocale.add "1080","FO"
+	objListPairKeyValueLocale.add "1036","FR"
+	objListPairKeyValueLocale.add "2060","FR"
+	objListPairKeyValueLocale.add "3084","FR"
+	objListPairKeyValueLocale.add "5132","FR"
+	objListPairKeyValueLocale.add "4108","FR"
+	objListPairKeyValueLocale.add "2108","GD"
+	objListPairKeyValueLocale.add "1084","GD"
+	objListPairKeyValueLocale.add "1031","DE"
+	objListPairKeyValueLocale.add "3079","DE"
+	objListPairKeyValueLocale.add "5127","DE"
+	objListPairKeyValueLocale.add "4103","DE"
+	objListPairKeyValueLocale.add "2055","DE"
+	objListPairKeyValueLocale.add "1032","EL"
+	objListPairKeyValueLocale.add "1037","HE"
+	objListPairKeyValueLocale.add "1081","HI"
+	objListPairKeyValueLocale.add "1038","HU"
+	objListPairKeyValueLocale.add "1039","IS"
+	objListPairKeyValueLocale.add "1057","ID"
+	objListPairKeyValueLocale.add "1040","IT"
+	objListPairKeyValueLocale.add "2064","IT"
+	objListPairKeyValueLocale.add "1041","JA"
+	objListPairKeyValueLocale.add "1042","KO"
+	objListPairKeyValueLocale.add "1062","LV"
+	objListPairKeyValueLocale.add "1063","LT"
+	objListPairKeyValueLocale.add "1071","MK"
+	objListPairKeyValueLocale.add "1086","MS"
+	objListPairKeyValueLocale.add "2110","MS"
+	objListPairKeyValueLocale.add "1082","MT"
+	objListPairKeyValueLocale.add "1102","MR"
+	objListPairKeyValueLocale.add "1044","NO"
+	objListPairKeyValueLocale.add "2068","NO"
+	objListPairKeyValueLocale.add "1045","PL"
+	objListPairKeyValueLocale.add "2070","PT"
+	objListPairKeyValueLocale.add "1046","PT"
+	objListPairKeyValueLocale.add "1047","RM"
+	objListPairKeyValueLocale.add "1048","RO"
+	objListPairKeyValueLocale.add "2072","RO"
+	objListPairKeyValueLocale.add "1049","RU"
+	objListPairKeyValueLocale.add "2073","RU"
+	objListPairKeyValueLocale.add "1103","SA"
+	objListPairKeyValueLocale.add "3098","SR"
+	objListPairKeyValueLocale.add "2074","SR"
+	objListPairKeyValueLocale.add "1074","TN"
+	objListPairKeyValueLocale.add "1060","SL"
+	objListPairKeyValueLocale.add "1051","SK"
+	objListPairKeyValueLocale.add "1070","SB"
+	objListPairKeyValueLocale.add "1034","ES"
+	objListPairKeyValueLocale.add "11274","ES"
+	objListPairKeyValueLocale.add "16394","ES"
+	objListPairKeyValueLocale.add "13322","ES"
+	objListPairKeyValueLocale.add "9226","ES"
+	objListPairKeyValueLocale.add "5130","ES"
+	objListPairKeyValueLocale.add "7178","ES"
+	objListPairKeyValueLocale.add "12298","ES"
+	objListPairKeyValueLocale.add "4106","ES"
+	objListPairKeyValueLocale.add "18442","ES"
+	objListPairKeyValueLocale.add "2058","ES"
+	objListPairKeyValueLocale.add "19466","ES"
+	objListPairKeyValueLocale.add "6154","ES"
+	objListPairKeyValueLocale.add "10250","ES"
+	objListPairKeyValueLocale.add "20490","ES"
+	objListPairKeyValueLocale.add "15370","ES"
+	objListPairKeyValueLocale.add "17418","ES"
+	objListPairKeyValueLocale.add "14346","ES"
+	objListPairKeyValueLocale.add "8202","ES"
+	objListPairKeyValueLocale.add "1072","SX"
+	objListPairKeyValueLocale.add "1089","SW"
+	objListPairKeyValueLocale.add "1053","SV"
+	objListPairKeyValueLocale.add "2077","SV"
+	objListPairKeyValueLocale.add "1097","TA"
+	objListPairKeyValueLocale.add "1092","TT"
+	objListPairKeyValueLocale.add "1054","TH"
+	objListPairKeyValueLocale.add "1055","TR"
+	objListPairKeyValueLocale.add "1073","TS"
+	objListPairKeyValueLocale.add "1058","UK"
+	objListPairKeyValueLocale.add "1056","UR"
+	objListPairKeyValueLocale.add "2115","UZ"
+	objListPairKeyValueLocale.add "1091","UZ"
+	objListPairKeyValueLocale.add "1066","VI"
+	objListPairKeyValueLocale.add "1076","XH"
+	objListPairKeyValueLocale.add "1085","YI"
+	objListPairKeyValueLocale.add "1077","ZU"
+	
+	'*** elimino tutti i record dalla mappa dei languageResources
+	languageResources.removeAll()
+
+	'<!--nsys-globalasa1-->
+	'***************************************************************************************************************
+	'***************************	INIZIO: VARIABILI PER LA DEMO APPLICATION	************************************
+	'***************************************************************************************************************
+
+	Application("demo_baseroot")="/public/demo"
+	Application("demo_error_page")="/common/include/error.asp"
+	Application("demo_dbType") = 1
+	Application("demo_srt_dbconn")="driver={MySQL ODBC 3.51 Driver};uid=Sql198279;pwd=a34d7876;database=Sql198279_2;Server=62.149.150.77;port=3306"
+	'Application("demo_srt_dbconn")="driver={MySQL ODBC 5.1 Driver};uid=portal;pwd=portal;database=portal_demo;Server=localhost;port=3306"
+	Application("demo_admin_role")=1
+	Application("demo_editor_role")=2
+	Application("demo_guest_role")=3
+	Application("demo_guest_const")="guest"
+	Application("demo_editor_const")="editor"
+	Application("demo_admin_const")="administrator"
+	Application("demo_controller_page")="/common/include/Controller.asp"
+	Application("demo_unlimited_key")="-1111111111"
+	Application("demo_strLangPrefix")="lang_"
+	Application("demo_strCatPrefix")="cat_"
+	Application("demo_strProdPrefix")="prod_"
+	Application("demo_strProdCat")="products"
+	Application("demo_strContentCat")="contents"
+	Application("demo_strMixedCat")="mixed"
+	Application("demo_dest_aziende")=1
+	Application("demo_dest_partner")=2
+	Application("demo_dest_utenti")=3
+	Application("demo_dest_speciali")=4	
+	
+	Dim demoObjConn
+	if not(Application("demo_srt_dbconn") = "") then
+		Set demoObjConn = Server.CreateObject("ADODB.Connection")
+		demoObjConn.ConnectionString = Application("demo_srt_dbconn")	
+		
+		'********* SETTO TUTTE LE VARIABILI APPLICATION RECUPERANDOLE DAL DB
+		Dim demoStrSQLRs, demoObjRS, demoStrKey, demoStrType, demoStrTmp
+		demoObjConn.Open()
+		demoStrSQLRs = "SELECT * FROM config_portal"
+	
+		Set demoObjRS = demoObjConn.Execute(demoStrSQLRs)		
+		if not(demoObjRS.EOF) then
+			do while not demoObjRS.EOF
+				demoStrKey = demoObjRS("keyword")
+				Application(demoStrKey) = demoObjRS("conf_value")
+				demoObjRS.moveNext()			
+			loop
+		end if
+		Set demoObjRS = Nothing
+		demoObjConn.Close()	
+		Set demoObjConn = nothing
+	end if
+
+	'***************************************************************************************************************
+	'***************************	FINE: VARIABILI PER LA DEMO APPLICATION	****************************************
+	'***************************************************************************************************************
+	'<!---nsys-globalasa1-->
+	
+End Sub
+
+Sub Application_OnEnd()
+	Set Application("active_users")= Nothing
+	Set Application("objConn") = nothing
+	
+	'*** elimino tutti i record dalla mappa dei LOCALE
+	objListPairKeyValueLocale.removeAll()
+	
+	'*** elimino tutti i record dalla mappa dei languageResources
+	languageResources.removeAll()
+	
+	'*** elimino tutti i record dalla mappa degli utenti online
+	onlineUsersList.removeAll()
+End Sub
+
+Sub Session_OnStart()
+	' setta il timeout di default 10
+	Session.Timeout = 20
+	Application.Lock
+	Application("active_users")=Application("active_users") + 1
+	Application.UnLock
+
+
+	'Dim userOnlineCookie, x
+	'userOnlineCookie = request.cookies(Application("srt_default_server_name"))("user_online")
+	'if not(isNull(userOnlineCookie)) AND not(userOnlineCookie="") then
+	'	for each x in onlineUsersList			
+	'		if onlineUsersList(x)=userOnlineCookie then
+	'			onlineUsersList.remove(x)
+	'		end if
+	'	next
+	'	onlineUsersList.add Session.SessionID, userOnlineCookie 
+	'end if
+
+	'<!--nsys-globalasa2-->
+	'*** per ovviare al problema dell'aggiornamento currency tramite asp.net ad ogni nuova sessione faccio un aggiornamento forzato delle valute
+	'*** la soluzione non è ottimale o particolarmente pulita ma permette di avere un aggiornamento automatico delle valute abbastanza frequente, se il sito riceve parecchie visite
+	'*** per evitare che l'aggiornamento avvenga ad ogni nuova sessione, metto una variabile application corrispondente alla data e ora corrente ad ogni aggiornamento, e faccio l'update
+	'*** solo se sono passate almeno 1 ora dall'ultimo update delle valute
+	
+	if (DateDiff("h",Application("refresh_currency_time"),now()) >= 1) then
+		Dim url, objHttp
+
+		On Error Resume Next
+
+		url = "http://"&Application("srt_default_server_name")&Application("baseroot")&"/editor/currency/currencyPoller.asp"
+				
+		set objHttp = Server.CreateObject("Microsoft.XMLHTTP")
+		objHttp.open "POST", url, true
+		objHttp.setRequestHeader "Content-type", "application/x-www-form-urlencoded"
+		objHttp.Send()
+		set objHttp = nothing
+
+		if(Err.number <> 0) then
+		end if	
+		
+		Application("refresh_currency_time") = now()
+	end if
+	'<!---nsys-globalasa2-->
+
+	if not(Application("srt_dbconn") = "") then
+		Set objConn = Server.CreateObject("ADODB.Connection")
+		objConn.ConnectionString = Application("srt_dbconn")		
+		
+		'********* INSERISCO NELLA TABELLA DEI LOG IL NUMERO DI UTENTI ATTIVI IN QUESTO ISTANTE
+		Dim strSQLRs
+
+
+		Dim dta_ins, DD, MM, YY, HH, MIN, SS
+		objConn.Open()
+		
+		dta_ins = Now()
+		DD = DatePart("d", dta_ins)
+		MM = DatePart("m", dta_ins)
+		YY = DatePart("yyyy", dta_ins)
+		HH = DatePart("h", dta_ins)
+		MIN = DatePart("n", dta_ins)
+		SS = DatePart("s", dta_ins)
+		dta_ins = YY&"-"&MM&"-"&DD&" "&HH&":"&MIN&":"&SS
+				
+		strSQLRs = "INSERT INTO logs(msg, usr, type, date_event) VALUES('active users: "&Application("active_users")&"<br/>ip current user: "&request.ServerVariables("REMOTE_ADDR")& "<br/>browser: "&request.ServerVariables("HTTP_USER_AGENT")& "<br/>user: "&request.ServerVariables("REMOTE_USER")& "<br/>Session.SessionID: "&Session.SessionID&"<br/>url: "&request.ServerVariables("URL")& "<br/>host: "&request.ServerVariables("REMOTE_HOST")&"','system','debug','"&dta_ins&"');"
+	
+		objConn.Execute(strSQLRs)
+		objConn.Close()	
+		Set objConn = nothing
+	end if
+End Sub
+
+Sub Session_OnEnd()
+	' quando il visitatore esce (-1)
+	Application.Lock
+	Application("active_users")=Application("active_users") - 1
+	Application.UnLock	
+	
+	Dim x
+	' elimino dalla mappa degli utenti online l'user corrente
+	for each x in onlineUsersList			
+		if onlineUsersList(x)=Session("objUtenteOnline") then
+			onlineUsersList.remove(x)
+		end if
+	next
+	if(onlineUsersList.Exists(Session.SessionID)= true) then
+		onlineUsersList.remove(Session.SessionID)
+	end if
+
+	'Set Session("objListPairKeyValueLocale") = Nothing
+
+	'<!--nsys-globalasa3-->
+	Dim strSQLRs, strSQLDelProdCarr, strSQLDel, objRS, strSQLLog, utenteLoggedList, sessionLoggedList, item, idCarrello, strSQLDelProdCarrTmp
+	Dim dta_ins, DD, MM, YY, HH, MIN, SS
+	
+	'*** VERIFICO SE C'E UNA CONNESSIONE Application("objConn") ATTIVA E RIPULISCO LA SESSIONE
+	On Error Resume Next
+	if not(Application("srt_dbconn") = "") then
+		Set objConn = Server.CreateObject("ADODB.Connection")
+		objConn.ConnectionString = Application("srt_dbconn")		
+		Dim sessionLoggedTmp
+		sessionLoggedTmp = ""
+		if (not(isEmpty(Session("objUtenteLogged"))) AND Application("del_carrello_on_exit") = "0") then
+		sessionLoggedTmp = Session("objUtenteLogged")&","
+		end if		
+			
+		strSQLRs = "SELECT id_carrello FROM carrello WHERE id_utente IN(" & sessionLoggedTmp & Session.SessionID &")"
+		strSQLDelProdCarr = "DELETE FROM prodotti_x_carrello WHERE id_carrello IN("&strSQLRs&")"
+		strSQLDel = "DELETE FROM carrello WHERE id_utente IN(" & sessionLoggedTmp  & Session.SessionID &")"
+		strSQLLog = "INSERT INTO logs(msg,usr,type,date_event) VALUES("
+			
+		objConn.Open()			
+		objConn.BeginTrans			
+		objConn.execute(strSQLDelProdCarr)
+		objConn.execute(strSQLDel)
+		
+		' registro l'evento nella tabella di logs			
+		dta_ins = Now()
+		DD = DatePart("d", dta_ins)
+		MM = DatePart("m", dta_ins)
+		YY = DatePart("yyyy", dta_ins)
+		HH = DatePart("h", dta_ins)
+		MIN = DatePart("n", dta_ins)
+		SS = DatePart("s", dta_ins)
+		dta_ins = YY&"-"&MM&"-"&DD&" "&HH&":"&MIN&":"&SS
+	
+		strSQLLog = strSQLLog & "'End of session & carrello deleting - id utente: " & sessionLoggedTmp & " - SessionID: "&Session.SessionID&"'"
+		strSQLLog = strSQLLog & ",'system'"
+		strSQLLog = strSQLLog & ",'info'"
+		strSQLLog = strSQLLog & ",'" & dta_ins & "'"
+		strSQLLog = strSQLLog & ")"
+
+		objConn.execute(strSQLLog)	
+		
+		if objConn.Errors.Count = 0 then
+			objConn.CommitTrans
+		end If
+		
+		if objConn.Errors.Count > 0 then
+			objConn.RollBackTrans
+		end if	
+								
+		objConn.Close()
+		Set objConn = nothing	
+	end if
+	if(Err.number<>0)then
+		
+	end if
+	'<!---nsys-globalasa3-->
+	
+	session.abandon()
+End Sub
+
+</SCRIPT>
+
+<!-- *** COMMENTO TEMPORANEAMENTE I WEBSERVICE **** -->
+<!-- include virtual="/common/include/i_soapcall.asp" --> 

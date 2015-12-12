@@ -1,0 +1,493 @@
+Per la gestione degli attibuti accessori legati ai prodotti, prevedere nella maschera di inserimento prodotto, uno spazio dove creare RUNTIME nuovi attributi da associare al prodotto corrente;
+
+la gestione degli attributi sarà simile come concetto a quella dei field utente, come set di tabelle e modalità di creazione e rendering dei field;
+
+A differenza degli utenti, i vari attributi saranno associati in modo indipendente ai singoli prodotti, e non necessariamente come intera lista;
+
+nella pagina di inserimento/modifica del prodotto verrà presentata la lista di attributi già creati, con la possibilità di attivarli per il prodotto corrente, e il modulo per creare RUNTIME un nuovo attributo da associare al prodotto.
+
+Gli attributi potranno essere elementi come:
+
+taglia;
+peso;
+colore;
+dimensioni;
+imballaggio;
+ecc...
+
+
+gli attributi aggiuntivi per prodotto dovranno essere recuperati in fase di visualizzazione del prodotto, nelle pagine dei template prodotti, nel carrello, nel riepilogo ordini dell'area utente e nelle pagine di gestione ordini;
+
+da valutare come integrare gli attributi per prodotto, da utilizzare per eventuali ricalcoli, o per la gestione delle spese accessorie ad esempio, a seconda del peso e imballaggio.
+
+
+PROBLEMA: va gestito il caso dello stesso prodotto(stesso ID) ma con attributi differenti selezionati;
+
+esempio: 1 maglietta(id=1) 	colore: bianco
+						taglia: media
+						
+	       1 malglietta(id=1)	colore: bianco
+						taglia: small
+						
+come gestire un caso simile visto che è lo stesso id prodotto?
+al momento non è possibile per com'è strutturata la gestione carrelli e ordini
+
+Per la fase di creazione ordine (dal BO)
+
+bisogna gestire la possibilità di far selezionare lo stesso prodotto più volte, differenziando per l'elenco dei campi aggiuntivi selezionati;
+se l'utente crea una combinazione già esistente, si somma solo la quantità alla chiave già presente, altrimenti si crea una nuova chiave con la combinazione di contatore, prodotto, elenco field+value e la quantità impostata:
+
+esempio di chiave:
+
+counter||id_prod||id_field#value|id_field#value|id_field#value,qta###counter||id_prod||id_field#value|id_field#value|id_field#value,qta###counter||id_prod||id_field#value|id_field#value|id_field#value,qta
+
+inserimento, recupero, visualizzazione e ricalcoli delle quantità dovranno basarsi sulla tabella che gestirà queste combinazioni di valori.
+
+Da capire come gestire la cosa, in particolare per quei prodotti che non hanno nessun attributo impostato e per i prodotti a quantità limitata, piuttosto che a quantità illimitata.
+
+Capire tutte le possibili combinazioni e quale può essere un metodo generico di gestione per i diversi casi.
+
+una possibile soluzione di inserimento e gestione delle varie combinazioni può essere l'uso di un counter come campo della tabella product_fields_x_order;
+
+il counter farebbe da raggruppatore per le combinazioni di prodotto,field,value,qta
+quindi se un prodotto selezionato ha tre attributi con relativi valori, i tre record corrispondenti sul DB avrebbero lo stesso counter;
+in questo modo potrei gestire le combinazioni diverse di attributi per lo stesso prodotto.
+
+
+
+ANALISI SOLUZIONE DA ADOTTARE:
+1) creare nella pagina della lista prodotti la stessa struttura della pagina lista utenti, con i due tab LISTA PRODOTTI e LISTA FIELDS
+2) il tab della LISTA FIELDS sarà praticamente identico a quello degli utenti, stesse pagine, classi e struttura;
+3) gli attibuti verranno associati ai singoli prodotti in modo indipendente, così che per un determinato prodotto si possa scegliere quanti e quali attributi associare;
+	questo viene fatto nella pagina di inserimento/modifica prodotto, tramite una lista di checkbox contenente l'elenco di tutti gli attributi creati, da selezionare a seconda delle esigenze;
+4) nella pagina di inserimento/modifica prodotto, a differenza della pagina di inserimento/modifica utente, da un lato si selezioneranno gli attributi da utilizzare nella creazione degli ordini,
+	dall'altro si valorizzeranno gli attributi che prevedono un imput, esempio:
+	peso: 10 kg
+	altezza: 58 cm;
+5) gli attributi potranno essere ripetuti per tipologia, ognuno dovrà contenere almeno un elemento differente degli altri, esempio:
+	taglia1 --> s,m,l,xl
+	taglia2 --> s,m,l,xl,xxl
+	taglia3 --> m,l
+	
+	colore1: rosso, blu, giallo
+	colore2: nero, grigio, rosa
+6) gli attributi associati ai prodotti non influenzano direttamente i calcoli sugli importi di un ordine;
+	eventualmente potranno essere utilizzati da altre funzionalità per modificare le logiche di calcolo opportune;
+	Per fare questo si aggiungereà la possibilità di associare ad una funzionalità l'utilizzo di un certo attributo;
+	es:	funzionalità: 		 spese spedizione;
+		attributo da valutare: peso;
+		attributo da valutare: altezza;
+		attributo da valutare: larghezza;	
+	(da capire come implementare questa logica);
+7) nella creazione dell'ordine, per gestire la visualizzazione dei prodotti in base agli attributi, si manterrà l'inserimento nelle tabelle attuali, 
+	ma con l'aggiunta di inserimento e successivo recupero della lista di valori inseriti nella nuova tabella product_fields_x_order;
+	in questo modo i calcoli degli importi e delle quantità totali del carrello/ordine rimarranno invariati, ma i dati di dettaglio verranno inseriti/recuperati dalla nuova tabella;
+	questa lista sarà quella da visualizzare:
+		nel carrello;
+		nella lista dei prodotti in pagina 3 della gestione ordini del BO;
+		nella lista prodotti del riepilogo ordini area utenti;
+		nelle mail di riepilogo ordine inviate a utente e amministratore;
+8) valutare se creare come campi fissi del prodotto il peso e le dimensioni, da utilizzare nei calcoli delle spede si spedizione
+	in questo modo si semplifica la logica dei campi aggiuntivi e dei calcoli sull'ordine
+	il peso sarebbe espresso in grammi o frazioni di grammi e convertito solo a livello visuale in kg (se supera 1 kg ovviamente)
+	per i prodotti che non hanno peso o dimensione, tipo quelli scaricabili, qui campi sarebbero ignorati;
+
+
+
+TODO VERSIONE IN SVILUPPO:
+- se in pagina di inserimento prodotto quantità è limitata, fare controllo js in modo che la somma delle quantità 
+	specificate per i singoli	valori di una select o checkbox, ecc non superi il totale quantità del prodotto impostata 
+- fare funzione jquery ajax o altro che al cambio di scelta tra quantità limitata/illimitata aggiorni di conseguenza
+	la gestione dei field per prodotto
+- nella pagina 2 dell'ordine da BO gestire l'aggiunta di prodotti uguali con field differenti,
+	valutare come fare con jquery e ajax e come gestire i calcoli delle singole quantità e degli ordini da modificare
+	e creare un div con scroll per la lista dei prodotti, in modo che non diventi troppo lunga
+
+
+
+TABELLE AGGIUNTE/MODIFICATE:
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields`
+-- 
+DROP TABLE IF EXISTS `product_fields`;
+CREATE TABLE `product_fields` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `description` varchar(100) NOT NULL,
+  `id_group` int(11) unsigned NOT NULL,
+  `type` int(11) unsigned NOT NULL,
+  `type_content` int(11) unsigned NOT NULL,
+  `order` int(3) unsigned NOT NULL DEFAULT 0,
+  `required` int(1) UNSIGNED NOT NULL DEFAULT 0,
+  `enabled` int(1) UNSIGNED NOT NULL DEFAULT 0,
+  `max_lenght` int(3) UNSIGNED DEFAULT NULL,
+  `editable` int(1) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY  (`id`),
+  KEY `Index_3` (`id_group`),
+  KEY `Index_4` (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_values`
+-- 
+DROP TABLE IF EXISTS `product_fields_values`;
+CREATE TABLE `product_fields_values` (
+  `id_field` int(11) unsigned NOT NULL,
+  `value` varchar(250) NOT NULL,
+  `order` int(3) unsigned NOT NULL DEFAULT 0,
+  UNIQUE KEY `Index_PFV` (`id_field`,`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_group`
+-- 
+DROP TABLE IF EXISTS `product_fields_group`;
+CREATE TABLE `product_fields_group` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `description` varchar(100) NOT NULL,
+  `order` int(2) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_type`
+-- 
+DROP TABLE IF EXISTS `product_fields_type`;
+CREATE TABLE `product_fields_type` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_type_content`
+-- 
+DROP TABLE IF EXISTS `product_fields_type_content`;
+CREATE TABLE `product_fields_type_content` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_match`
+-- 
+DROP TABLE IF EXISTS `product_fields_match`;
+CREATE TABLE `product_fields_match` (
+  `id_field` INTEGER UNSIGNED NOT NULL,
+  `id_prod` INTEGER UNSIGNED NOT NULL,
+  `value` varchar(250) NOT NULL,
+  PRIMARY KEY (`id_field`, `id_prod`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_value_match`
+-- 
+DROP TABLE IF EXISTS `product_fields_value_match`;
+CREATE TABLE `product_fields_value_match` (
+  `id_field` INTEGER UNSIGNED NOT NULL,
+  `id_prod` INTEGER UNSIGNED NOT NULL,
+  `qta_prod` int(10) NOT NULL,
+  `value` varchar(250) NOT NULL,
+  PRIMARY KEY (`id_field`, `id_prod`, `value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_x_order`
+-- 
+DROP TABLE IF EXISTS `product_fields_x_order`;
+CREATE TABLE IF NOT EXISTS `product_fields_x_order` (
+  `counter` INTEGER UNSIGNED NOT NULL,
+  `id_order` int(10) unsigned NOT NULL,
+  `id_prod` int(10) unsigned NOT NULL,
+  `id_field` int(10) unsigned NOT NULL,
+  `qta_prod` int(10) unsigned NOT NULL,
+  `value` varchar(250) NOT NULL,
+  PRIMARY KEY  (`counter`,`id_order`,`id_prod`,`id_field`,`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `product_fields_x_card`
+-- 
+DROP TABLE IF EXISTS `product_fields_x_card`;
+CREATE TABLE IF NOT EXISTS `product_fields_x_card` (
+  `counter` INTEGER UNSIGNED NOT NULL,
+  `id_card` int(10) unsigned NOT NULL,
+  `id_prod` int(10) unsigned NOT NULL,
+  `id_field` int(10) unsigned NOT NULL,
+  `qta_prod` int(10) unsigned NOT NULL,
+  `value` varchar(250) NOT NULL,
+  PRIMARY KEY  (`counter`,`id_card`,`id_prod`,`id_field`,`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (1, 'text');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (2, 'textarea');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (3, 'select');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (4, 'select-multiple');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (5, 'checkbox');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (6, 'radio');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (7, 'hidden');
+INSERT INTO `product_fields_type` (`id`, `description`) VALUES (8, 'file');
+
+INSERT INTO `product_fields_type_content` (`id`, `description`) VALUES (1, 'text');
+INSERT INTO `product_fields_type_content` (`id`, `description`) VALUES (2, 'integer');
+INSERT INTO `product_fields_type_content` (`id`, `description`) VALUES (3, 'decimal');
+INSERT INTO `product_fields_type_content` (`id`, `description`) VALUES (4, 'date');
+
+(le righe seguenti sono da aggiungere al file: /db/mysql/backup_constraints.sql)
+ALTER TABLE `product_fields_values` ADD FOREIGN KEY (`id_field`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE;
+ALTER TABLE `product_fields_match` ADD FOREIGN KEY (`id_prod`) REFERENCES `prodotti` (`id_prodotto`) ON DELETE CASCADE;
+ALTER TABLE `product_fields_match` ADD FOREIGN KEY (`id_field`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE;
+ALTER TABLE `product_fields_value_match` ADD FOREIGN KEY (`id_prod`) REFERENCES `prodotti` (`id_prodotto`) ON DELETE CASCADE;
+ALTER TABLE `product_fields_value_match` ADD FOREIGN KEY (`id_field`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE;
+ALTER TABLE `product_fields_x_order` ADD FOREIGN KEY (`id_order`) REFERENCES `ordini` (`id_ordine`) ON DELETE CASCADE;
+ALTER TABLE `product_fields` ADD FOREIGN KEY (`id_group`) REFERENCES `product_fields_group` (`id`);
+ALTER TABLE `product_fields` ADD FOREIGN KEY (`type`) REFERENCES `product_fields_type` (`id`);
+ALTER TABLE `product_fields_x_card` ADD FOREIGN KEY (`id_card`) REFERENCES `carrello` (`id_carrello`) ON DELETE CASCADE;
+ALTER TABLE `prodotti_x_carrello` ADD FOREIGN KEY (`id_carrello`) REFERENCES `carrello` (`id_carrello`) ON DELETE CASCADE;
+
+
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3263, 'backend.prodotti.view.table.label.extra_fields', 'IT', 'Campi aggiuntivi per prodotto');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3264, 'backend.prodotti.view.table.label.extra_fields', 'EN', 'Extra fields for product');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3265, 'backend.prodotti.lista.table.header.label_prod_list', 'IT', 'LISTA PRODOTTI');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3266, 'backend.prodotti.lista.table.header.label_prod_list', 'EN', 'PRODUCT LIST');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3267, 'backend.prodotti.lista.table.header.label_prod_field', 'IT', 'LISTA FIELD');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3268, 'backend.prodotti.lista.table.header.label_prod_field', 'EN', 'FIELD LIST');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3269, 'backend.prodotti.lista.table.header.description', 'IT', 'DESCRIZIONE');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3270, 'backend.prodotti.lista.table.header.group', 'IT', 'GRUPPO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3271, 'backend.prodotti.lista.table.header.order', 'IT', 'ORDINAMENTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3272, 'backend.prodotti.lista.table.header.type', 'IT', 'TIPO CAMPO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3273, 'backend.prodotti.lista.table.header.required', 'IT', 'RICHIESTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3274, 'backend.prodotti.lista.table.header.enabled', 'IT', 'ABILITATO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3275, 'backend.prodotti.lista.table.header.description', 'EN', 'DESCRIPTION');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3276, 'backend.prodotti.lista.table.header.enabled', 'EN', 'ENABLED');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3277, 'backend.prodotti.lista.table.header.group', 'EN', 'GROUP');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3278, 'backend.prodotti.lista.table.header.order', 'EN', 'SORT');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3279, 'backend.prodotti.lista.table.header.required', 'EN', 'REQUIRED');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3280, 'backend.prodotti.lista.table.header.type', 'EN', 'FIELD TYPE');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3281, 'backend.prodotti.lista.table.alt.modify_field', 'IT', 'Modifica field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3282, 'backend.prodotti.lista.table.alt.delete_field', 'IT', 'Cancella field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3283, 'backend.prodotti.lista.table.alt.delete_field', 'EN', 'Delete field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3284, 'backend.prodotti.lista.table.alt.modify_field', 'EN', 'Modify field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3285, 'backend.prodotti.lista.button.inserisci_field.label', 'IT', 'Inserisci field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3286, 'backend.prodotti.lista.button.inserisci_field.label', 'EN', 'Insert field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3287, 'backend.prodotti.detail.js.alert.insert_description', 'IT', 'Inserire descrizione!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3288, 'backend.prodotti.detail.js.alert.insert_group', 'IT', 'Selezionare gruppo di appartenenza!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3289, 'backend.prodotti.detail.table.label.description', 'IT', 'Descrizione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3290, 'backend.prodotti.detail.table.label.group', 'IT', 'Gruppo di appartenenza');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3291, 'backend.prodotti.detail.table.label.type', 'IT', 'Tipo campo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3292, 'backend.prodotti.detail.table.label.order', 'IT', 'Ordinamento');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3293, 'backend.prodotti.detail.table.label.required', 'IT', 'Obbligatorio');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3294, 'backend.prodotti.detail.table.label.enabled', 'IT', 'Abilitato');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3295, 'backend.prodotti.detail.js.alert.insert_description', 'EN', 'Insert description!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3296, 'backend.prodotti.detail.js.alert.insert_group', 'EN', 'Insert group!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3297, 'backend.prodotti.detail.table.label.description', 'EN', 'Description');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3298, 'backend.prodotti.detail.table.label.enabled', 'EN', 'Enabled');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3299, 'backend.prodotti.detail.table.label.group', 'EN', 'Group');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3300, 'backend.prodotti.detail.table.label.order', 'EN', 'Sorting');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3301, 'backend.prodotti.detail.table.label.required', 'EN', 'Required');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3302, 'backend.prodotti.detail.table.label.type', 'EN', 'Field type');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3303, 'backend.prodotti.detail.table.alt.delete_group', 'IT', 'Cancella gruppo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3304, 'backend.prodotti.detail.table.alt.delete_group', 'EN', 'Delete group');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3305, 'backend.prodotti.detail.table.label.insert_group', 'IT', 'Inserisci gruppo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3306, 'backend.prodotti.detail.table.label.insert_group', 'EN', 'Insert group');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3307, 'backend.prodotti.detail.js.alert.insert_order', 'IT', 'Inserire ordinamento!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3308, 'backend.prodotti.detail.js.alert.insert_order', 'EN', 'Insert sorting!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3309, 'backend.prodotti.lista.js.alert.delete_group', 'IT', 'Confermi cancellazione gruppo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3310, 'backend.prodotti.lista.js.alert.delete_group', 'EN', 'Confirm group delete');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3311, 'backend.prodotti.lista.js.alert.delete_field', 'IT', 'Confermi cancellazione campo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3312, 'backend.prodotti.lista.js.alert.delete_field', 'EN', 'Confirm field delete');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3313, 'backend.prodotti.lista.table.header.type_content', 'IT', 'TIPO CONTENUTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3314, 'backend.prodotti.detail.table.label.type_content', 'IT', 'Tipo contenuto');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3315, 'backend.prodotti.detail.table.label.values', 'IT', 'Valori');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3316, 'backend.prodotti.detail.table.label.type_content', 'EN', 'Type content');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3317, 'backend.prodotti.detail.table.label.values', 'EN', 'Values');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3318, 'backend.prodotti.lista.table.header.type_content', 'EN', 'TYPE CONTENT');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3319, 'backend.prodotti.detail.table.label.max_lenght', 'IT', 'Lunghezza massima campo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3320, 'backend.prodotti.detail.table.label.max_lenght', 'EN', 'Max field lenght');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3321, 'backend.prodotti.detail.table.label.field_help_desc', 'IT', 'per ottenere la descrizione del <b>field</b> in multilingua, creare nella sezione <b>Gestione label multilingua</b> tre nuove chiavi composte nel modo seguente:<br/>per le pagine di frontend: frontend.prodotto.field.label.xxxxx<br/>per le pagine del backoffice: backend.prodotti.detail.table.label.xxxxx<br/>per i template di invio mail: backend.prodotti.mail.label.xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>descrizione</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3322, 'backend.prodotti.detail.table.label.group_help_desc', 'IT', 'per ottenere la descrizione del <b>gruppo</b> in multilingua, creare nella sezione <b>Gestione label multilingua</b> due nuove chiavi composte nel modo seguente:<br/>per le pagine di frontend: frontend.prodotto.field.label.group.xxxxx<br/>per le pagine del backoffice: backend.prodotti.detail.table.label.group.xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>Gruppo di appartenenza</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3323, 'backend.prodotti.detail.table.label.field_help_desc', 'EN', 'to obtain a description of the <b>field</b> in different languages, create in the <b>Multilanguage management</b> three new composite keys as follows: <br/> for frontend: frontend.prodotto.field.label.xxxxx <br/> for the backoffice pages: backend.prodotti.detail.table.label.xxxxx<br/>for the send e-mail templates: backend.prodotti.mail.label.xxxxx<br/><br/> where xxxxx is the value entered in the <b>description</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3324, 'backend.prodotti.detail.table.label.group_help_desc', 'EN', 'to obtain a description of the <b>group</b> in different languages, create in the <b>Multilanguage management</b> two new composite keys as follows: <br/> for frontend: frontend.prodotto.field.label.group.xxxxx <br/> for the backoffice pages: backend.prodotti.detail.table.label.group.xxxxx <br/> <br/> where xxxxx is the value entered in the <b>Membership group</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3325, 'backend.prodotti.detail.table.label.field_help_desc_values', 'IT', '&egrave; possibile definire una lista di valori da utilizzare per i campi di tipo select, select-multiple, checkbox e radio, specificando ogni valore nei campi di testo;<br/><br/>per ottenere la lista dei <b>valori</b> in multilingua, creare nella sezione <b>Gestione label multilingua</b> una nuova chiave composta nel modo seguente: portal.commons.product_field.label.xxxxx<br/><br/>dove xxxxx corrisponde ad ogni singolo elemento inserito nel campo <b>Valori</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3326, 'backend.prodotti.detail.table.label.field_help_desc_values', 'EN', 'You can define a list of values for fields of type select, select-multiple, checkboxes and radio, specifying each value in the text fields;<br/><br/>to obtain the list of <b>values</b> in different languages, create in the <b>Multilanguage management</b> one new composite key as follows: portal.commons.product_field.label.xxxxx<br/><br/> where xxxxx is each single value entered in the <b>Values</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3327, 'backend.prodotti.detail.table.label.field_help_required', 'IT', '&egrave; possibile definire un messaggio di avviso personalizzato per i campi definiti obbligatori quando non vengono valorizzati dall&#39;utente;<br/><br/>per ottenere il messaggio in multilingua, creare nella sezione <b>Gestione label multilingua</b> una nuova chiave composta nel modo seguente: portal.commons.product_field.js.alert.insert_xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>descrizione</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3328, 'backend.prodotti.detail.table.label.field_help_required', 'EN', 'You can define a personalized message for required fields when are not filled by user;<br/><br/>to obtain the message in different languages, create in the <b>Multilanguage management</b> one new composite key as follows: portal.commons.product_field.js.alert.insert_xxxxx<br/><br/> where xxxxx is the value entered in the <b>description</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3329, 'backend.utenti.detail.table.label.field_help_required', 'IT', '&egrave; possibile definire un messaggio di avviso personalizzato per i campi definiti obbligatori quando non vengono valorizzati dall&#39;utente;<br/><br/>per ottenere il messaggio in multilingua, creare nella sezione <b>Gestione label multilingua</b> una nuova chiave composta nel modo seguente: portal.commons.user_field.js.alert.insert_xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>descrizione</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3330, 'backend.utenti.detail.table.label.field_help_required', 'EN', 'You can define a personalized message for required fields when are not filled by user;<br/><br/>to obtain the message in different languages, create in the <b>Multilanguage management</b> one new composite key as follows: portal.commons.user_field.js.alert.insert_xxxxx<br/><br/> where xxxxx is the value entered in the <b>description</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3331, 'backend.prodotti.detail.table.label.product_fields', 'IT', 'Campi aggiuntivi per prodotto');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3332, 'backend.prodotti.detail.table.label.product_fields', 'EN', 'Extra fields for product');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3333, 'backend.prodotti.detail.table.label.prod_field_attivo', 'IT', 'Campi attivati');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3334, 'backend.prodotti.detail.table.label.prod_field_attivo', 'EN', 'Activate field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3335, 'backend.prodotti.detail.table.label.prod_field_name', 'IT', 'Nome Campo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3336, 'backend.prodotti.detail.table.label.prod_field_name', 'EN', 'Field name');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3337, 'backend.prodotti.detail.table.label.prod_field_values', 'IT', 'Valore campo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3338, 'backend.prodotti.detail.table.label.prod_field_values', 'EN', 'Field name');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3339, 'backend.prodotti.detail.js.alert.confirm_reset_qta_fields_value', 'IT', 'Saranno arrezate tutte le quantit\u00E0 relative ai campi aggiuntivi per prodotto! confermi variazione?');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3340, 'backend.prodotti.detail.js.alert.confirm_reset_qta_fields_value', 'EN', 'All quantity of custom field for product will be reset! confirm variation?');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3341, 'backend.prodotti.detail.js.alert.wrong_max_qta_value', 'IT', 'Superata la quantit\u00E0 massima impostabile; aumentare la quantit\u00E0 disponibile del prodotto o diminuire le quantit\u00E0 dei singoli campi aggiuntivi!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3342, 'backend.prodotti.detail.js.alert.wrong_max_qta_value', 'EN', 'Exceeded the maximum field quantity, increase the available quantity of the product or decrease the amount of each additional fields!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3343, 'backend.prodotti.detail.table.label.editable', 'IT', 'Modificabile');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3344, 'backend.prodotti.detail.table.label.editable', 'EN', 'Editable');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3345, 'backend.prodotti.lista.table.header.editable', 'IT', 'MODIFICABILE');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3346, 'backend.prodotti.lista.table.header.editable', 'EN', 'EDITABLE');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3347, 'backend.ordini.detail.js.alert.exceed_qta_prod', 'IT', 'Superata la quantit\u00E0 massima impostabile!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3348, 'backend.ordini.detail.js.alert.exceed_qta_prod', 'EN', 'Exceeded the maximum field quantity');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3349, 'backend.ordini.detail.table.label.product_disp', 'IT', 'Disponibilit&agrave;:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3350, 'backend.ordini.detail.table.label.product_disp', 'EN', 'Available:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3351, 'backend.ordini.detail.table.label.fields_prod', 'IT', 'ATTRIBUTI PRODOTTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3352, 'backend.ordini.detail.table.label.fields_prod', 'EN','PRODUCT FIELDS');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3353, 'backend.ordini.detail.table.alt.add_prod_combination', 'IT', 'Aggiungi nuova combinazione di prodotti e attributi prodotto!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3354, 'backend.ordini.detail.table.alt.add_prod_combination', 'EN','Add new product attribute combination!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3355, 'backend.ordini.detail.table.alt.delete_prod_combination', 'IT', 'Cancella combinazione di prodotti e attributi prodotto!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3356, 'backend.ordini.detail.table.alt.delete_prod_combination', 'EN','Delete product attribute combination!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3357, 'backend.ordini.detail.table.label.field_prod_list_header', 'IT', 'ELENCO SELEZIONI PRODOTTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3358, 'backend.ordini.detail.table.label.field_prod_list_header', 'EN','PRODUCT SELECTION LIST');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3359, 'backend.ordini.detail.js.alert.insert_value_for_field', 'IT', 'Assegnare un valore al campo:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3360, 'backend.ordini.detail.js.alert.insert_value_for_field', 'EN','Set a value for field:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3361, 'frontend.template_prodotto.js.alert.exceed_qta_prod', 'IT', 'Superata la quantit\u00E0 massima impostabile!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3362, 'frontend.template_prodotto.js.alert.exceed_qta_prod', 'EN','Exceeded the maximum field quantity');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3363, 'frontend.template_prodotto.table.label.product_disp', 'IT', 'Disponibilit&agrave;:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3364, 'frontend.template_prodotto.table.label.product_disp', 'EN', 'Available:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3365, 'frontend.template_prodotto.js.alert.insert_value_for_field', 'IT', 'Assegnare un valore al campo:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3366, 'frontend.template_prodotto.js.alert.insert_value_for_field', 'EN','Set a value for field:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3367, 'frontend.template_prodotto.js.alert.form_already_sent', 'IT', 'form già inviato!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3368, 'frontend.template_prodotto.js.alert.form_already_sent', 'EN','form already sent!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3369, 'frontend.area_user.ordini.table.label.fields_prod', 'IT', 'ATTRIBUTI PRODOTTO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3370, 'frontend.area_user.ordini.table.label.fields_prod', 'EN','PRODUCT FIELDS');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3371, 'backend.ordini.view.table.header.sommario_prod', 'IT', 'SOMMARIO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3372, 'backend.ordini.view.table.header.sommario_prod', 'EN','ABSTRACT');
+
+
+FILE AGGIUNTI:
+/common/include/Object/ProductFieldClass.asp
+/common/include/Object/ProductFieldGroupClass.asp
+
+/editor/prodotti/include/init4.asp
+/editor/prodotti/inseriscifield.asp
+/editor/prodotti/processfield.asp
+
+
+FILE MODIFICATI:
+tabella: prodotti_x_ordine (non accettava chiave ordine-prodotto duplicata, aggiunto campo counter_prod);
+tabella: prodotti_x_carrello (non accettava chiave carrello-prodotto duplicata, aggiunto campo counter_prod);
+
+/common/include/Object/Products4OrderClass.asp (causa errore per chiave duplicata ordine-prodotto, aggiunto campo counter_prod)
+/common/include/Object/ProductsCardClass.asp (causa errore per chiave duplicata carrello-prodotto, aggiunto campo counter_prod, vanno aggiunti i metodi per gestire gli item per prodotto del carrello)
+/common/include/Object/ProductClass.asp (causa errore nel ricalcolo delle quantità dei prodotti)
+/common/include/Object/OrderClass.asp (aggiunta cancellazione field per prodotti ordine nella delete dell'ordine)
+/common/include/Object/CardClass.asp
+
+/area_user/include/visualizzaordine.asp
+/area_user/include/init4.inc
+/area_user/include/initContent4.inc
+
+/common/css/stile.css
+
+/editor/css/stile.css
+
+/editor/carrelli/deletecarrello.asp
+
+/editor/prodotti/include/init.asp
+/editor/prodotti/include/init2.asp
+/editor/prodotti/include/init3.asp
+/editor/prodotti/listaprodotti.asp
+/editor/prodotti/inserisciprodotto.asp
+/editor/prodotti/visualizzaprodotto.asp
+/editor/prodotti/deleteprod.asp
+/editor/prodotti/processprodotto.asp
+/editor/prodotti/processprodotto2.asp
+
+/editor/payments/moduli/paypal/checkin_notify.asp
+/editor/payments/moduli/sella/checkin_notify.asp
+
+/editor/ordini/include/init2.asp
+/editor/ordini/include/init4.asp
+/editor/ordini/include/init5.asp
+/editor/ordini/inserisciordine2.asp
+/editor/ordini/inserisciordine3.asp
+/editor/ordini/processordine2.asp
+/editor/ordini/processordine3.asp
+/editor/ordini/visualizzaordine.asp
+/editor/ordini/deleteordine.asp (gestito ripristino quantità dei field cancellate con l'ordine)
+/editor/ordini/mail_notif/mail_down_ordine_admin.asp
+/editor/ordini/mail_notif/mail_down_ordine_guest.asp
+/editor/ordini/mail_notif/mail_ordine_admin.asp
+/editor/ordini/mail_notif/mail_ordine_guest.asp
+
+/public/templates/shopping-card/carrello.asp
+/public/templates/shopping-card/carrello2.asp
+/public/templates/shopping-card/managecarrello.asp
+/public/templates/shopping-card/processcarrello.asp
+/public/templates/shopping-card/deletecarrello.asp
+/public/templates/shopping-card/confirmordinecarrello.asp
+/public/templates/shopping-card/include/init1.inc
+/public/templates/shopping-card/include/init2.inc
+/public/templates/shopping-card/include/initContent1.inc
+/public/templates/shopping-card/include/initContent2.inc
+/public/templates/shopping-card/include/initStyleandJs1.inc
+/public/templates/shopping-card/include/initStyleandJs2.inc
+/public/templates/shopping-card/include/end1.inc
+/public/templates/shopping-card/include/end2.inc
+
+
+/public/templates/products/prodotti_index.asp
+/public/templates/products/prodotti_dettaglio.asp
+/public/templates/products/include/init1.inc
+/public/templates/products/include/init2.inc
+/public/templates/products/include/initStyleandJs1.inc
+/public/templates/products/include/initStyleandJs2.inc
+/public/templates/products/include/initContent1.inc
+/public/templates/products/include/initContent1.inc
+/public/templates/products/include/end1.inc
+/public/templates/products/include/end2.inc
+
+
+
+
+
+********************************************************************************************************* DA VALUTARE: AGGIUNTA CAMPI PESO E DIMENSIONI AL PRODOTTO **************************************************************
+
+TABELLE MODIFICATE:
+prodotti:
+ - campo peso (in grammi) = decimal(10,4);
+ - campo altezza (in cm) = decimal(10,2);
+ - campo larghezza (in cm) = decimal(10,2);
+ - campo profondità (in cm) = decimal(10,2);
+
+
+FILE MODIFICATI:
+/common/include/Object/ProductClass.asp (aggiungo i field e i metodi di inserimento e recupero sul DB);
+
+/editor/prodotti/include/init2.asp
+/editor/prodotti/include/init3.asp
+/editor/prodotti/inserisciprodotto.asp
+/editor/prodotti/visualizzaprodotto.asp
+/editor/prodotti/processprodotto.asp
+/editor/prodotti/processprodotto2.asp
+
+/public/templates/products/include/initContent1.inc
+/public/templates/products/include/initContent1.inc
+
+
+VOCI MULTILINGUA AGGIUNTE:
+
+

@@ -1,0 +1,39 @@
+.txtIntroServizi {
+	text-align:center;
+	vertical-align:top;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	padding :10px 10px 10px 10px;
+	color: #666666;
+	font-weight: bold;
+}
+.serviceTitle{
+	padding-left: 12px;
+	text-align:center;
+}
+.tableContentLista{
+	width:100%;
+	/*height:95%;*/
+	text-align:left;
+	vertical-align:top;
+}
+.tableContentLista tr{
+	font-size:12px;
+	/*background:url(/common/img/centrale_separatoreTabelle.png) bottom left repeat-x;*/
+	background:#ffffff;
+}
+.tableContentLista  b{
+	color:#FF3300;
+}
+.tableContentLista  a{
+	text-decoration:none;
+	color:#ff6600;
+}
+.tableContentLista  a:hover{
+	text-decoration:underline;
+	color:#ff6600;
+}
+.tableContentLista p{
+	padding-left:16px;
+	padding-right:20px;
+}

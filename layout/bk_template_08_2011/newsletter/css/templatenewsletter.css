@@ -1,0 +1,71 @@
+body, html {
+	margin:0 auto;
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	height:100%;
+	font-size:12px;
+	background:#ffffff;
+	min-width:1000px;
+}
+.tdContent {
+	width: 60%; 
+	text-align: left; 
+	vertical-align: top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	padding: 3px;
+}
+.tdMenu {
+	width: 20%; 
+	text-align: left; 
+	vertical-align: top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	background-color: #D0D9E9; 
+	padding: 0px;
+	white-space: nowrap;
+}
+.tdMenuRight {
+	width: 20%; 
+	text-align: left; 
+	vertical-align: top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	background-color: #F0F4F7; 
+	padding: 3px;
+}
+.tableContentLista {
+	width: 100%;
+	height: 100%;	
+}
+.tdContentLista {
+	width: 100%;
+	height: 100%;
+	text-align: left; 
+	vertical-align: top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	padding: 3px;
+}
+.tdContentPaginazione {
+	width: 100%;
+	height: 100%;
+	text-align: left; 
+	vertical-align: top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	padding: 3px;
+}

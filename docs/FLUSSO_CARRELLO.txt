@@ -1,0 +1,29 @@
+FLUSSO CARRELLO:
+
+START:	
+		frontend --> addToCarrello(...) --> Carrello.asp -->
+							|
+							|
+					<----------------
+					|
+					|
+			  	(sendOrder ??)			
+					|
+				----------------
+				|	        |
+	       	       back <-- NO             YES --> ProcessCarrello.asp --> insert order --> 
+		  			  						|
+		  			  						|
+		  			  	  				 (Pagam CC ??)
+											|
+										----------------
+										|		|
+							<-- Page CC Vendor <-- YES    		NO --> ConfirmCarrello.asp (BP, BB)
+				   				|
+				   				|
+		       				   (Pagamento effettuato ??)				
+				   				|
+			   				----------------
+			   				|		|
+		          ConfirmCarrello.asp (CC) <-- YES		NO --> DeleteCarrelloOrder.asp (Confirm error pagamento CC)   
+END:		

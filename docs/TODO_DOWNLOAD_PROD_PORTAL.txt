@@ -1,0 +1,59 @@
+CREARE NUOVA TABELLA: DOWN_PROD_X_ORDER
+
+id
+id_order
+id_prod
+id_down_prod
+id_user
+active
+max_num_download
+insert_date
+expire_date
+download_counter
+download_date
+user_notified
+
+
+
+PASSI DA SEGUIRE PER IMPLEMENTARE IL DOWNLOAD DEI PRODOTTI:
+
+- aggiungere a tabella ordini e in tutta l'applicazione il campo user_notified_x_download;
+
+- creare nuova classe DownloadableProduct4OrderClass:
+	
+- in processcarrello e processordine3 gestire inserimento record "prodotto da scaricare", dentro la nuova tabella down_prod_x_order:
+    in processcarrello:
+	-recuperare la lista dei prodotti scaricabili dall'id di ogni prodotto;
+	-con la nuova classe DownloadableProduct4OrderClass inserire nuovo record (stato non attivo);
+	  inserire nuovo record con (expire_date, download_date = null) e (download_counter a 0);
+    in processordine3:
+	-recuperare la lista dei prodotti scaricabili dall'id di ogni prodotto;
+	-con la nuova classe DownloadableProduct4OrderClass inserire nuovo record:
+		if (pagamento = true AND already_paied = false)
+		   insert/update record con (expire_date = (calcolo in base ai minuti del max_download_time OR null se -1), download_date = null) e (download_counter a 0) e (stato attivo);	
+		if (pagamento = false)
+		   insert/update record con (expire_date, download_date = null) e (download_counter a 0) e (stato non attivo);	
+		if (pagamento = true AND already_paied = true) 
+		   non faccio nulla;
+		   
+- in confirminsertordine gestire invio mail con link per download prodotti:
+	if(pagamento = esterno)
+	   non faccio nulla;
+	else
+	   if (pagamento = true AND already_paied = false AND user_notified_x_download = false)
+	      invio la mail all'amministratore ed al cliente per il download dei file;
+	      update ordine con (user_notified_x_download = true);
+	   if (pagamento = false OR already_paied = true OR user_notified_x_download = true)
+	      non faccio nulla;
+	      
+- in checkin (o checkin_notified per paypal) gestire invio mail con link per download prodotti:
+	if (notified = true)
+	   invio la mail all'amministratore ed al cliente per il download dei file;
+	   update record con (expire_date = (calcolo in base ai minuti del max_download_time OR null se -1), download_date = null) e (download_counter a 0) e (stato attivo);
+	   update ordine con (user_notified_x_download = true);
+
+- in DownloadManager:
+	recupero lista file da scaricare in base all'id ordine;
+	verifico se lo stato è attivo, se non è stato superato l'expired date (se non illimitato), idem per il max_download;
+	se il file risulta scaricabile, inizio il download;
+	prima di uscire, se il max_download non è illimitato, incremento il download_counter;

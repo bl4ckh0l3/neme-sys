@@ -1,0 +1,213 @@
+			************************************    TODO PORTAL    ************************************
+
+****************** ANALISI ******************
+
+1)  valutare la creazione di oggetti delle classi comuni usate in tutta l'applicazione dentro initdata.inc
+	 usare quelle istanze delle classi per chiamare i metodi *statici* di tali classi, ed eliminare la creazione e distruzione di tutti gli oggetti di quel tipo esistenti adesso,
+	 aggiungere anche al fondo di ogni pagina un include tipo initdataend.inc con dentro la distruzione esplicita di tutti gli oggetti creati nella initdata.inc;
+3)  gestire banner rotation in maniera evoluta con gestione delle impression: (http://www.webmasterpoint.org/script/asp/download_script_componenti/adrotator.html);
+4)  valutare la creazione di una pagina html per ogni contenuto e il recupero dai template in base ad un parametro di configurazione, valutare:
+	recupero template asp dalla console di amministrazione in fase si inserimento contenuti;
+	scrittura template html (modo e posizione);
+	recupero del template da frontend;    
+5)  verificare se possibile usare codice ordine criptato;
+6)  valutare implementazione doppio prezzo;  
+7)  valutare implementazione sconto per categoria;
+9)  valutare visualizzazione e possibilità inserimento avatar anche su backend;
+10) valutare gestione invio newsletter via fax;
+12) valutare gestione sondaggi;
+13) valutare creazione template virtuale con la gestione a widgets ...login, ricerca, sondaggi, categorie, contenuti, ecc con posizionamento tramite div e css;
+14) valutare possibilità di inviare agli utenti ecommerce email quanto un prodotto diventa disponibile;
+
+
+****************** CORREZIONI E IMPLEMENTAZIONI ******************
+01)  creare interfaccia per la gestione della nuova header flash
+03)  rivedere grafica sito con i nuovi template di naZZ;
+7)   rivedere e completare scrittura log in tutte le operazioni dell'editor e nel carrello utente, nella fase di acquisto;
+8)   aggiungere a classe util metodi di comodità per esempio per valutare oggetti null o vuoti, o del tipo giusto; 
+9)   rivedere in tutta la console i valori dei campi corretti anche in fase di inserimento, con js e regexp;
+12) creare help online in tutte le pagine di editor..come popup..magari layer visible/hidden all'onmouseover o onclick;
+13) pensare a nuova grafica div + js + ajax based;
+14) aggiornare e completare la guida del cms in doc/pdf;
+15) fare pagina fac-simile fatture;
+16) ripulire il codice e controllare "Set obj = nothing" per tutti gli oggetti aperti;
+17) creare pagina reportistica e statistiche;
+
+
+****************** TEST ******************
+- TESTARE MEGLIO GESTIONE ORDINI E ESAURIMENTO PRODOTTI ..SPECIE INVIO MAIL PROD ESAURITO;
+- testare tutto download prodotti;
+- testare tutto paypal;
+- testare checkin_fault;
+- testare notifica checkin paypal;
+- testare funzionamento del carrello e ordini in transazione con tabelle InnoDB;
+- testare funzionamento magazzino se transazionale e se gestiti errori e ricalcoli;
+- testare tutti i ricalcoli di prodotti e ordini;
+- testare possibili errori e soluzioni in caso di transazione con carta di credito...vedere sella;
+- VERIFICARE SE VERAMENTE CORRETTO PROBLEMA CON INSERIMENTO E UPDATE TARGET UANDO SI INSERISCE/MODIFICA UNA CATEGORIA 
+   ...RIVEDERE I PASSAGGI DATO IL CAMBIO DI GESTIONE TARGET;
+- RICORDARSI DI FARE IL MERGE DELLE MODIFICHE ANCHE CON I FILE SNIPPET E DI AGGIUNGERE FILE NECESSARI A BUILD.XML
+   
+
+
+			************************************    TODO COMPLETATI    ************************************
+			
+- rivedere gestione multilingue, creare una nuova directory per ogni lingua disponibile 
+   e copiare dentro ogni file asp usato per il template inserito, gestire il richiamo alla dir corretta tramite controller;
+- modificare gestione categorie...prevedere nuovo campo posizione_menu che indica a quale menu fa parte (1, 2, n...);
+- prevedere automatizzazione generazione target all'inserimento/modifica/cancellazione nuove categorie e prodotti...analisi;
+- unificare le pagine di registrazione e area_user per la gestione dell'utente;
+- creare multinewsletter, modificare classe newsletterclass, aggiungere metodi per creare/mod/del,  nuove newsletter e associare un template disponibile(da verificare come)
+   gestire lista checkbox lato utente e combo lato console per gestire newsletter;
+- rivedere creazione automatica target, quando si creano prodotti mette prefisso cat_;
+- gestire politiche di sconto (prodotti, cliente, ecc);
+- gestire carrello senza utente in sessione, deve loggarsi solo prima dell'invio ordine (pagina processcarrello.asp),
+   il problema è gestire i ricalcoli dei prodotti prima dell'invio carrello, quando l'utente è sloggato e poi si logga prima dell'invio
+   a quel punto, bisogna tenere traccia se l'utente era sloggato e solo in quel caso ricalcolare gli importi con lo sconto cliente
+   e gestendo la cancellazione degli sconti dai singoli prodotti;
+- prevedere preview dei contenuti dall'editor (esempio con popup che apre controller con template finale e passa id_news gerarchia, e altro con nuovo flag
+   nei in tutti i template che indica se preview oppure no e in caso preview recupera news con stato da_editare)
+- aggiungere campo per ordinamento prodotti nella lista;
+- sistemare questione cancellazione carrello a fine sessione
+- rivedere tutta le gestione ordini e prodotti:
+   - creare tutta l'interfaccia per le spese e le tasse e payment come previsto dalle tabelle nuove
+      terminare gestione tasse per prodotto
+      prevedere gestione delle spese da associare al frontend, tutte su imponibile, prima delle tasse
+      gestione imponibile, prezzo scontato, prezzo ivato, ecc con metodi di utilita' in ogni classe
+   - creare pannello spese accessorie con elenco corrieri, importo fisso o percentuale (predefinito), 
+      quale attivo di default frontend (unico), cambiare modalita' recupero spesa spedizione da frontend,
+   - creare pannello gestione tasse con nome tassa, importo,
+      con flag attivo/disattivato e sequenza di calcolo in fase inserimento ordine, sia frontend che backend;
+   - modificare gestione calcoli, le spese spedizione vanno prima del calcolo tasse (esempio iva);
+   - suddividere inserimento/modifica ordine su backend in piu' pagine: 
+      scelta cliente;
+      scelta prodotti; 
+      spese accessorie (spedizione, imballo);
+      totale imponibile tipo pagamento e se effettuato;
+      tasse;
+      totale ordine e stato ordine;
+      per ogni pagina prevedere modalita' del tipo inserisci-->applica-->prosegui con ricalcolo del subtotale ad ogni applicazione;
+   - prevedere la gestione iva per ogni singolo prodotto oppure globale ...da analizzare;
+- rivedere gestione target...gestire passaggio di listatarget come oggetti target e non dictionary, da newsclass, categoriaclass(recupero target)
+   a classi e pagine inserimento news e setlistatarget del frontend;
+- risolvere problema limite upload file con classe asp ...in inserimento template non permette di caricare troppi file e lascia le cartelle create;
+- in lista prodotti e lista news, gestione diversa del recupero target per categorie e lingue,
+  controllare e sincronizzare i file: setlistatargetnews.inc e setlistatargetprod.inc, nella gestione delle news si tiene conto 
+  della sessione, in quella dei prod no ...sistemare quella dei prodotti;
+- ricordarsi di mettere in transazione tutti i medodi delete con multi query;
+- rivedere gestione sistemi di pagamento, analizzare come aggiungere campi aggiuntivi, a seconda di quanto previsto dal fornitore del sistema, 
+   e ragionare su come passare i valori delle variabili in maniera automatizzat;
+- aggiungere campo is_redirect(0/1) alla tabella payment,
+   sarà questo flag a decidere se va fatto un redirect verso sito esterno di pagamento;
+- aggiungere funzione js che se si imposta a si il flag is_redirect, fa comparire il campo url e permette di aggiungere tutti i campi accessori necessari per concludere il pagamento;
+- i campi accessori andranno memorizzati su una nuova tabella payment_field
+  che conterrà:id_payment; field_name; field_value;
+- aggiungere anche colonna match_field, che contiene il nome della variabile asp che contiene il valore da assegnare al campo del db
+  es: id_ordine, totale_ordine, ecc ...che devono essere passati a dei campi con nomi specifici del singolo sistema di pagamento.
+- da verificare se con questa logica non si creano rischi di errori e /o  inconsistenze;
+- da capire come fare a recuperare il valore di una certa variabile asp in base al nome specificato nella colonna del db; 
+  ipotesi:
+  partire come presupposto che esista una lista di campi fissi del cms, a cui associare un campo variabile del sistema di pagamento;
+  -- lista campi fissi:
+     id_ordine;
+     totale_ordine;
+     ......(cercare altri campi se ci sono)
+  
+  nelle pagine di frontend e backend dove viene gestito il pagamento e deciso il redirect, creare map contenente il nome logico della variabile desiderata e il suo valore, 
+  esempio: 
+  id_ordine, 123453
+  totale_ordine, 120
+  ........
+  una volta selezionato il sistema di pagamento, se è previsto il redirect, recupero la lista di field associati al sistema di pagamento, 
+  e se c'è un valore nel campo match_field, cerco nella map creata la  
+  corrispondenza con la variabile, se la trovo passo il valore al campo del sistema di pagamento.
+- il redirect del sistema di pagamento va fatto con un post e non con querystring, da studiare il sistema di protezione sicuro;
+- nelle pagine del carrello e ordine, vanno distinte le pagine di ritorno dal sistema di pagamento perchè frontend e backend fanno percorsi differenti;
+- rivedere in tutto l'editor gestione doppio utente in sessione:
+  così com'è non sembra corretta, e cmq permettere la visuazzazione delle pagine editor solo ad utenti editor e administrator, a meno che non sia necessario
+  lasciare alcune pagine visibili anche ad utenti guest (non dovrebbe essere necessario);
+- valutare se impostare pagamento effettuto già in fase checkin e gestire validità ordine solo con il verified della transaction;
+- prima di portare tutto in produzione rifare export db, delle tabelle aggiunte/modificate e dei dati;
+- gestire l'invio di mail con i template asp come per la newsletter;
+- rivedere e gestire tutti gli invii mail dell'ecommerce, invio ordine, ricezione, conferma, pagamento, ecc ...in tutti i punti elecati nei file di chechin, e nelle conferme ordine e carello;
+- rivedere gestione pagamento ordine prevedere sistemi di sicurezza multipli:
+  - controllo importo transato e importo ordine su db, per carte dii credito prima di flaggare pagamento attivo;
+  - verifica ordine non sia stato modificato nella fase di pagamento, magari con implementazione creazione nuovo ordine ad ogni modifica del cliente;
+  - prevedere codice di ritorno sicuro da matchare sul db;
+- impostare le transazioni in processnews e processcategoria ...e dove mancano nel portale;
+- reimpostare le constraint dove si può usare innodb e creare meccanismo con flag in variabile application (innodbactive) da usare per lanciare o no
+   le query multiple per cancellazioni e update vari (news, prod, target, order, ecc);   
+- controllare il funzionamento corretto della popup inserimento commenti prodotto nella scheda ordini dell'area utente;
+- riabilitare, appena in produzione, controllo su ip provenienza nelle pagine di checkin del pagamento ordini;
+- aggiungere controllo js no doppio invio quando si conferma acquisto ordine (sia frontend che backoffice);
+- correzione nella ricerca no risultati in lingua diversa da quella di navigazione corrente;
+- aggiungere form login nel menù di sx;
+- valutare ulteriore modifica alla gestione dei template:
+	 nella pagina di gestione, prevedere anche il recupero delle pagine già caricate (in sola visualizzazione) ma con la possibilità di modificare l'ordinamento,
+	 oppure valutare nuova soluzione:
+	 	sostituire numpagina con id pagina caricata, creare nuovo legame con idpagina, al posto di numpage, in modo da creare una catena di pagine miste tra vari template;
+	 	verificare fattibilità, come creare la lista di pagine associabili, nella pagina di inserimento template, come processarle e memorizzarle,
+		come gestire il legame e che careatteristiche servono nelle pagine dei template;
+- implementare l'inserimento della gerarchia di categoria come: "menu tendina con lista gerarchia esistenti" + "." + "nuovo numero gerarchia senza il punto";
+- terminare gestione prodotti da scaricare in maniera protetta;
+- prevedere invio mail quando prodotto finisce disponibilità;
+- terminare procedura aoutomatica di installazione: 
+	valutare se possibile scrivere sul file global.asa quando la procedura e' andata a buon fine,
+	e sovrascrivere sul file la variabile baseroot, se e' stata modificata dall'utente, e la stringa di connessione al db con quella corretta
+	(corretto con nuovo file nemesi_config.xml);
+- valutare implementazione multivaluta;
+- implementare tracciamento dei file scaricati su DB al (guida, applicazioni, documenti, immagini, ecc);
+- aggiungere gestione cookie sessione utente;
+- in tutti i template, prendendo esempio dal template "chi siamo", modificare il recupero dei dati della page title, meta keyword e meta description;
+- creare tabella USER_PREFERENCE per nuova funzionalità di gradimento utente con grafico;
+- creare tabella FRIEND_X_USER per nuova funzionalità di amici utente;
+- aggiungere campo public a tabella user, definisce se il profilo utente è pubblico o privato, valore: 0/1;
+- aggiungere gestione nuovo campo public nelle classi e nelle pagine;
+- aggiungere campo type alle due tabelle dei commenti, definisce se l'elemento commentato piace, valore: 0/1;
+- aggiungere gestione nuovo campo type nelle classi e nelle pagine;
+- creare pagine /area_user/puclic_profile.asp con la visualizzazione dell'utente, i suoi commenti, il gradimento, ecc;
+- creare pagina widget per la visualizzazione dei commenti ai contenuti e prodotti, da includere nei template;
+- fare inserimento avatar su DB solo se sono immagini ...no file .exe o altro modificare file processusersito.asp ...dove c'è il TODO;
+- valutare modifica gestione lingue con creazione lingue illimitate o con menu a tendina con tutte le disponibili 
+      ...e cambiare gestione lingue e multilingue con tabella di appoggio, con i termini per ogni lingua selezionata;
+- implementare reportistica visibile da BO dei file scaricati su DB (guida, applicazioni, documenti, immagini, ecc);
+- prevedere possibilità di modificare il tipo file per i file allegati già inseriti in news e prod;
+- prevedere possibilità di scegliere in fase di acquisto un indirizzo di spedizione:
+	creare due nuove tabelle SHIPPING_ADDRESS e ORDER_SHIPPING_ADDRESS dove per ogni id ordine inserisco l'indirizzo di spedizione e lo utilizzo nella fase di gestione ordine;
+	di default in fase di acquisto verrà proposto l'indirizzo scelto la prima volta dall'utente, con la possibilità di cambiarlo prima di inviare l'ordine.
+	la tabella SHIPPING_ADDRESS avrà i campi:
+		ID;
+		ID_USER;
+		ADDRESS;
+		POSTAL_CODE;
+		CITY;
+		COUNTRY;
+	l'altra tabella ORDER_SHIPPING_ADDRESS avrà i seguenti campi:
+		ID_ORDER;
+		ID_SHIPPING;
+	gestire correttamente il caso dell'utente non ancora loggato in fase di gestione carrello;
+- correggere gestione testi editor da inserimento contenuti, ripulire br iniziale e accento;
+- acquistare dominio www.neme-sys.com/it/org;
+- CORREGGERE BUG DOWNLOADABLE PRODOTTI, SE UN PRODOTTO E' SCARICABILE DEVE AVERE ALMENO UN FILE SCARICABILE ALLEGATO, ALTRIMENTI VA IN ERRORE IN FASE DI CREAZIONE ORDINE
+- creazione flag per disabilitare il carrello e lasciare il sito solo come catalogo prodotti consultabile, con anche l'opzione di visualizzazione prezzi o no
+- correggere problema spese spedizione per prodotti scaricabili, devono essere escluse dal calcolo del prezzo finale.
+- valutare Suddivisione dei clienti in Gruppi Utenti : ad ogni gruppo utente puo' essere abbinata una differente politica di sconto sui prezzi del catalogo prodotti.
+- valutare gestione Prezzi multipli per prodotto : basati sulla quantita' o sul gruppo di appartenenza del cliente.
+- valutare nuova gestione utente ...lasciare solo i campi necessari nella tabella utenti (Profilo utente) e creare nuova tabella: user_fields
+      con i campi:
+	id;
+	descrizione;
+	gruppo (Dati Personali,Domicilio e recapiti,Dati Società,Varie);
+	tipo (input, combo, combo multipla, checkbox, radio);
+	facoltativo/obbligatorio;
+      dall'interfaccia utente in console amministrazione, prevedere a runtime creazione/modifica/cancellazione nuovi campi;
+      creare altra tabella, user_fields_match
+       con i campi:
+         id_user;
+	 id_field;
+	 value;
+      e gestire per ogni utente, l'associazione con i campi disponibili, il tipo, e il loro valore;
+- valutare come è possibile attribuire ad ogni prodotto alcuni Attributi (come ad esempio Taglia o Colore, peso) per personalizzarlo; si possono anche assegnare variazioni di prezzo.
+- verificare tutti i file dei template esistenti, aggiungere a tutti i file index il concetto di preview:
+	inserire la variabile stato, settabile a seconda del parametro in ingresso, vedi template di dettaglio "chi siamo";
+- prevedere per ogni corriere attivazione funzione esclusione spesa spedizione se numero colli > x;

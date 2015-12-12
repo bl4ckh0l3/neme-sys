@@ -1,0 +1,60 @@
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "insertNews"
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:156:	Public Function insertNews(strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato, objConn)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/processnews.asp:221:		newMaxID = objNews.insertNews(strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/processnews2.asp:225:		newMaxID = objNews.insertNews(strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:156:	Public Function insertNews(strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato, objConn)
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/processnews.asp:206:		newMaxID = objNews.insertNews(strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "modifyNews"
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:201:	Public Sub modifyNews(id, strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato, objConn)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/processnews.asp:109:		call objNews.modifyNews(id_news, strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/processnews2.asp:109:		call objNews.modifyNews(id_news, strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:201:	Public Sub modifyNews(id, strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato, objConn)
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/processnews.asp:94:		call objNews.modifyNews(id_news, strTitolo, strAbs, strAbs2, strAbs3, strText, dtData_ins, dtData_pub, dtData_del, stato_news, objConn)
+
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "insertNewsNoTransaction"
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:245:	Public Function insertNewsNoTransaction(strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato)
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:245:	Public Function insertNewsNoTransaction(strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato)
+
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "modifyNewsNoTransaction"
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:288:	Public Sub modifyNewsNoTransaction(id, strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/cambiastatonews.asp:38:	call objSelNews.modifyNewsNoTransaction(id_news, objSelNews.getTitolo(), objSelNews.getAbstract1(), objSelNews.getAbstract2(), objSelNews.getAbstract3(), objSelNews.getTesto(), objSelNews.getDataInsNews(), objSelNews.getDataPubNews(), objSelNews.getDataDelNews(), stato_news)
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:288:	Public Sub modifyNewsNoTransaction(id, strTitolo, strAbst1, strAbst2, strAbst3, strTesto, dtData_ins, dtData_pub, dtData_del, intStato)
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/cambiastatonews.asp:38:	call objSelNews.modifyNewsNoTransaction(id_news, objSelNews.getTitolo(), objSelNews.getAbstract1(), objSelNews.getAbstract2(), objSelNews.getAbstract3(), objSelNews.getTesto(), objSelNews.getDataInsNews(), objSelNews.getDataPubNews(), objSelNews.getDataDelNews(), stato_news)
+
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "findNews"
+/media/USB20FD/Portal Project/src/portal/common/include/feedRSS.asp:42:		Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:370:	Public Function findNews(id, id_utente, titolo, arrTargetCat, arrTargetLang, data_pub, data_del, stato_news, order_by)
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/listanews.asp:109:						Set objListaNews = objNews.findNews(null, null, null, objListaTargetCatTmp, objListaTargetLangTmp, null, null, null, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/listanews.asp:111:						Set objListaNews = objNews.findNews(null, objUserLogged.getUserID(), null, objListaTargetCatTmp, objListaTargetLangTmp, null, null, null, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/feedRSS.asp:42:		Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:370:	Public Function findNews(id, id_utente, titolo, arrTargetCat, arrTargetLang, data_pub, data_del, stato_news, order_by)
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/listanews.asp:109:						Set objListaNews = objNews.findNews(null, null, null, objListaTargetCatTmp, objListaTargetLangTmp, null, null, null, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/listanews.asp:111:						Set objListaNews = objNews.findNews(null, objUserLogged.getUserID(), null, objListaTargetCatTmp, objListaTargetLangTmp, null, null, null, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/public/demo/public/templates/aboutus/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/demo/public/templates/aboutus/include/initContent2.inc:10:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)
+/media/USB20FD/Portal Project/src/portal/public/demo/public/templates/homepage/include/initContent1.inc:8:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/aboutus/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/aboutus/include/initContent2.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/public/templates/homepage/include/initContent1.inc:8:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)
+/media/USB20FD/Portal Project/src/portal/public/templates/partners/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/partners/include/initContent2.inc:10:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/the-product/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/the-product/include/initContent2.inc:8:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)
+/media/USB20FD/Portal Project/src/portal/public/templates/customers/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/customers/include/initContent2.inc:10:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)
+/media/USB20FD/Portal Project/src/portal/public/templates/contactus/include/initContent1.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+/media/USB20FD/Portal Project/src/portal/public/templates/contactus/include/initContent2.inc:9:		'	Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)		
+/media/USB20FD/Portal Project/src/portal/public/templates/download/include/initContent2.inc:9:			Set objListaNews = News.findNews(null, null, null, objListaTargetCat, objListaTargetLang, null, null, stato, order_news_by)	
+
+>/usr/bin/scite -grep w~~~ "*.asp *.inc" "countNews"
+/media/USB20FD/Portal Project/src/portal/common/include/Objects/newsclass.asp:589:	Public Function countNews(id, id_utente, titolo, arrTargetCat, arrTargetLang, data_pub, data_del, stato_news)
+/media/USB20FD/Portal Project/src/portal/public/demo/common/include/Objects/newsclass.asp:575:	Public Function countNews(id, id_utente, titolo, arrTargetCat, arrTargetLang, data_pub, data_del, stato_news)
+
+>pagine correlate da modificare
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/inseriscinews.asp
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/listaNews.asp
+/media/USB20FD/Portal Project/src/portal/editor/contenuti/visualizzanews.asp
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/inseriscinews.asp
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/listaNews.asp
+/media/USB20FD/Portal Project/src/portal/public/demo/editor/contenuti/visualizzanews.asp

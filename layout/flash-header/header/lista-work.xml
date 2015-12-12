@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<lavoro tipo="tv">
+	<nome>disaronno o.j.</nome>
+	<preview>tv/disaronno-oj/preview/disaronno-oj.jpg</preview>
+	<video>
+		<filmati>tv/disaronno-oj/video/disaronno-oj.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[disaronno<br/>| summer drop |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>Kroitnijz:<br/>Ago Panini<br/>Antonio Di Peppo<br/>Guido Morozzi<br/><br/>Musica<br/>Ninfa e Ohm Guru<br/>MOD Music On Demand<br/>voce ASK,]]></testo></credits>
+</lavoro>
+
+
+<lavoro tipo="tv">
+	<nome>tia maria</nome>
+	<preview>tv/tia-maria/tia-maria.jpg</preview>
+	<video>
+		<filmati>tv/tia-maria/tia-maria.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[tia maria<br/>| mix |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>bosi/sironi]]></testo></credits>
+</lavoro>
+
+
+
+
+<lavoro tipo="tv">
+	<nome>corvo</nome>
+	<preview>tv/corvo/preview/corvo.jpg</preview>
+	<video>
+		<filmati>tv/corvo/video/vino-corvo.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[vino corvo<br/>| siciliano d.o.c. |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>bosi/sironi]]></testo></credits>
+</lavoro>
+
+
+<lavoro tipo="tv">
+	<nome>crocerossa</nome>
+	<preview>tv/crocerossa/crocerossa.jpg</preview>
+	<video>
+		<filmati>tv/crocerossa/cri.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[c.r.i.<br/>| sangue |<br/><br/>agency<br/>I AM A BEAN<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director_3d<br/>a. dallafontana<br/><br/>mix audio/s-effect<br/>fonovideosync<br/>postoffice reloaded]]></testo></credits>
+</lavoro>
+
+<lavoro tipo="tv">
+	<nome>rumhoney</nome>
+	<preview>tv/rumhoney-uk/preview/room.jpg</preview>
+	<video>
+		<filmati>tv/rumhoney-uk/video/she_is_so_fine.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[rumhoney<br/>| she is so fine |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>r. sai<br/><br/>management<br/>b sound int.]]></testo></credits>
+</lavoro>
+
+
+
+<lavoro tipo="tv">
+	<nome>disaronno usa</nome>
+	<preview>tv/disaronno-usa/preview/prev-disaronno-usa.jpg</preview>
+	<video>
+		<filmati>tv/disaronno-canada/video/Disaronno_canada.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[disaronno<br/>| as you like it |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>e. chu]]></testo></credits>
+</lavoro>
+
+
+
+
+<lavoro tipo="tv">
+	<nome>attività freelance davide+viviana</nome>
+	<preview>tv/nostromo/preview/nostr-3.jpg</preview>
+	<video>
+		<filmati>tv/nostromo/video/nostromo-funerale.flv</filmati>
+		<filmati>tv/nostromo/video/nostromo-1.flv</filmati>
+		<filmati>tv/nostromo/video/nostromo-2.flv</filmati>
+	</video>
+	<credits attivi="true">
+		<testo><![CDATA[tonno nostromo<br/>| funeral |<br/><br/><font color="#FF6600">agency<br/>max information</font><br/><br/>cr. director<br/>davide pallavicini<br/>viviana bruno<br/><br/>director<br/>bosi/sironi]]></testo>
+		<testo><![CDATA[tonno nostromo<br/>| good |<br/><br/><font color="#FF6600">agency<br/>max information</font><br/><br/>cr. director<br/>davide pallavicini<br/>viviana bruno<br/><br/>director<br/>bosi/sironi]]></testo>
+		<testo><![CDATA[tonno nostromo<br/>| hook |<br/><br/><font color="#FF6600">agency<br/>max information</font><br/><br/>cr. director<br/>davide pallavicini<br/>viviana bruno<br/><br/>director<br/>bosi/sironi]]></testo>
+	</credits>
+</lavoro>
+
+
+
+
+
+<lavoro tipo="tv">
+	<nome>disaronno canada</nome>
+	<preview>tv/disaronno-canada/preview/disa-twins.jpg</preview>
+	<video>
+		<filmati>tv/disaronno-usa/video/Disaronno_USA.flv</filmati>
+	</video>
+	<credits><testo><![CDATA[disaronno<br/>| unexpected |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>director<br/>e. chu]]></testo></credits>
+</lavoro>
+
+
+<lavoro tipo="adv">
+	<nome>bean print</nome>
+	<preview>adv/bean-print/preview/ghiaccio-no-banda.jpg</preview>
+	<galleria>
+		<foto>adv/bean-print/gallery/peli-no-banda.jpg</foto>
+		<foto>adv/bean-print/gallery/ghiaccio-no-banda.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[I AM A BEAN<br/>| miracle bean |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>t.watson]]></testo>
+		<testo><![CDATA[I AM A BEAN<br/>| miracle bean |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>t.watson]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="adv">
+	<nome>bean promo</nome>
+	<preview>adv/promo/preview/t-shirt-no-bande.jpg</preview>
+	<galleria>
+		<foto>adv/promo/gallery/latte-no-bande.jpg</foto>
+		<foto>adv/promo/gallery/stiker-no-bande.jpg</foto>
+		<foto>adv/promo/gallery/tenda-no-bande.jpg</foto>
+		<foto>adv/promo/gallery/t-shirt-no-bande.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[I AM A BEAN<br/>| cannot do<br/>without them! |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>d. pallavicini]]></testo>
+		<testo><![CDATA[I AM A BEAN<br/>| cannot do<br/>without them! |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>g.tovo<br/>r.sai<br/>d. pallavicini]]></testo>
+		<testo><![CDATA[I AM A BEAN<br/>| cannot do<br/>without them! |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>d. pallavicini]]></testo>
+		<testo><![CDATA[I AM A BEAN<br/>| cannot do<br/>without them! |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>v. bruno]]></testo>
+	</credits>
+</lavoro>
+
+<lavoro tipo="adv">
+	<nome>design&amp;concept</nome>
+	<preview>adv/design-and-concept/preview/p-muumah-no-bande.jpg</preview>
+	<galleria>
+		<foto>adv/design-and-concept/gallery/muumah-no-bande-1.jpg</foto>
+		<foto>adv/design-and-concept/gallery/muumah-no-bande-2.jpg</foto>
+		<foto>adv/design-and-concept/gallery/muumah-no-bande-3.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[brw filmland<br/>| i like to watch |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>design<br/>d. pallavicini]]></testo>
+		<testo><![CDATA[mac bun<br/>| slowfastfood |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>design<br/>d. pallavicini]]></testo>
+		<testo><![CDATA[muschi alti<br/>| ohana |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>design<br/>d. pallavicini]]></testo>
+	</credits>
+</lavoro>
+
+
+
+
+<lavoro tipo="adv">
+	<nome>corvo</nome>
+	<preview>adv/corvo/preview/corvo-no-bande.jpg</preview>
+	<galleria>
+		<foto>adv/corvo/gallery/corvo-no-bande.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[illva. corvo duca<br/>di salaparuta<br/>| n’tzu |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>d. pallavicini]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="adv">
+	<nome>social work</nome>
+	<preview>adv/social-work/preview/4-gotcha-no-bande.jpg</preview>
+	<galleria>
+		<foto>adv/social-work/gallery/1-cri-letto-no-bande.jpg</foto>
+		<foto>adv/social-work/gallery/2-cri-croci-no-bande.jpg</foto>
+		<foto>adv/social-work/gallery/3-cri-gesu-no-bande.jpg</foto>
+		<foto>adv/social-work/gallery/4-gotcha-no-bande.jpg</foto>
+		<foto>adv/social-work/gallery/5-wwf-no-bande.jpg</foto>
+		<foto>adv/social-work/gallery/6-fumo-no-bande.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[crocerossa<br/>| landmines |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>pht._3d<br/>a. dallafontana]]></testo>
+		<testo><![CDATA[crocerossa<br/>| war |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[crocerossa<br/>| jesus |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[a.s.p.<br/>| child obesity |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>a. ciavarella]]></testo>
+		<testo><![CDATA[wwf<br/>| illegal hunting |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[ministero salute<br/>| passive smoke |<br/><br/>cr. director<br/>davide+viviana<br/>I AM A BEAN<br/><br/>photographer<br/>a. ciavarella]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="az">
+	<nome>photography</nome>
+	<preview>az/photography/preview/1_no_bande.jpg</preview>
+	<galleria>
+		<foto>az/photography/gallery/1_no_bande.jpg</foto>
+		<foto>az/photography/gallery/zio_no_bande.jpg</foto>
+		<foto>az/photography/gallery/architettura_1.jpg</foto>
+		<foto>az/photography/gallery/architettura_2.jpg</foto>
+		<foto>az/photography/gallery/ballerina_no_bande_scura.jpg</foto>
+		<foto>az/photography/gallery/2_no_banda.jpg</foto>
+		<foto>az/photography/gallery/ale_no_bande.jpg</foto>
+		<foto>az/photography/gallery/papa_dany_no_bande.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[| ... |<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[| caravaggio |<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[| urban geometry |<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN ]]></testo>
+		<testo><![CDATA[| urban geometry |<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN ]]></testo>
+		<testo><![CDATA[| dancing <br/>gladiator| <br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[| busy life can<br/> be difficult |<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[| if he knew...|<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+		<testo><![CDATA[| if he could...|<br/><br/>photographer<br/>d. pallavicini<br/>I AM A BEAN]]></testo>
+	</credits>
+</lavoro>
+
+
+
+
+
+<lavoro tipo="az">
+	<nome>art xhibition</nome>
+	<preview>az/art-xhibition/preview/ART-xibition.jpg</preview>
+	<galleria>
+		<foto>opening-soon-2.jpg</foto>
+	
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+<lavoro tipo="az">
+	<nome>shrt-lng stories</nome>
+	<preview>az/shrt-lng-stories/preview/short-long-story.jpg</preview>
+	<galleria>
+		<foto>opening-soon-2.jpg</foto>
+
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+<lavoro tipo="az">
+	<nome>text&amp;music</nome>
+	<preview>az/text-music/gallery/music-2.jpg</preview>
+	<galleria>
+		<foto>opening-soon-2.jpg</foto>
+
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+<lavoro tipo="az">
+	<nome>movie&amp;theater</nome>
+	<preview>az/movie-theater/preview/theatre.jpg</preview>
+	<galleria>
+		<foto>opening-soon-2.jpg</foto>
+	</galleria>
+	<credits>
+			<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="hero">
+	<nome>around the world</nome>
+	<preview>bean-hero/around-the-world/preview.jpg</preview>
+	<galleria>
+		<foto>bean-hero/around-the-world/2.jpg</foto>
+		<foto>bean-hero/around-the-world/3.jpg</foto>
+		<foto>bean-hero/around-the-world/4.jpg</foto>
+		<foto>bean-hero/around-the-world/5.jpg</foto>
+		<foto>bean-hero/around-the-world/6.jpg</foto>
+		<foto>bean-hero/around-the-world/7.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+<lavoro tipo="hero">
+	<nome>bean movie ecc...</nome>
+	<preview>bean-hero/bean-movie-ecc/preview.jpg</preview>
+	<galleria>
+		<foto>bean-hero/bean-movie-ecc/1.jpg</foto>
+		<foto>bean-hero/bean-movie-ecc/2.jpg</foto>
+		<foto>bean-hero/bean-movie-ecc/3.jpg</foto>
+		<foto>bean-hero/bean-movie-ecc/4.jpg</foto>
+		<foto>bean-hero/bean-movie-ecc/5.jpg</foto>
+		<foto>bean-hero/bean-movie-ecc/b6.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="hero">
+	<nome>bean testimonial</nome>
+	<preview>bean-hero/bean-testimonial/preview.jpg</preview>
+	<galleria>
+		<foto>bean-hero/bean-testimonial/1.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+
+<lavoro tipo="news">
+	<nome>us</nome>
+	<preview>news/us/preview.jpg</preview>
+	<galleria>
+		<foto>news/us/us-1.jpg</foto>
+		<foto>news/us/us-2.jpg</foto>
+		<foto>news/us/us-3.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+<lavoro tipo="news">
+	<nome>happening</nome>
+	<preview>news/happening/preview.jpg</preview>
+	<galleria>
+		<foto>news/happening/happening-2.jpg</foto>
+		<foto>news/happening/happening-1.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+<lavoro tipo="news">
+	<nome>recognition</nome>
+	<preview>news/recognition/preview.jpg</preview>
+	<galleria>
+		<foto>news/recognition/recognition.jpg</foto>
+	</galleria>
+	<credits>
+		<testo><![CDATA[]]></testo>
+	</credits>
+</lavoro>
+
+</root>

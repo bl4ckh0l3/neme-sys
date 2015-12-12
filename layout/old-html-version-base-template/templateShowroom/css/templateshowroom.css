@@ -1,0 +1,12 @@
+.tdShowroomContent{
+	width:548px;
+	background-color:#AEA5A1;
+	text-align:center;
+	vertical-align:top;
+}
+.tdContainerLeft{
+	padding-left:59px;	
+}
+.tdContainerContent{
+	background:url(../img/sfondo_sx.jpg) top left repeat;
+}

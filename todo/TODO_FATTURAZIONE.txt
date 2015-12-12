@@ -1,0 +1,65 @@
+TABELLE DB:
+
+- FATTURE;
+- id;
+- id_order;
+- number;
+- date;
+- id_client;
+- id_shipping_order;
+- imp_amount;
+- tax_amount;
+- tot_amount;
+
+- DATI_FATTURA;
+- id;
+- name;
+- info;
+- logo;
+
+
+
+CAMPI NECESSARI PER LA FATTURA:
+
+- logo azienda;
+- nome azienda;
+- info azienda (indirizzo, recapiti, piva, ecc);
+- num. fattura;
+- data fattura;
+- destinatario;
+- destinazione;
+
+LISTA PRODOTTI:
+- codice prod;
+- nome prod;
+- qta;
+- prezzo unitario;
+- sconto;
+- imponibile;
+- iva (aliquota);
+- iva (importo);
+
+- spese accessorie;
+- totale imponibile;
+- totale iva;
+- comissioni pagamento;
+- totale fattura;
+
+
+- creare classe SalesBillClass:
+	la classe si occupa di gestire l'inserimento dell'anagrafica azienda nella tabella: DATI_FATTURA
+	e di inserire/modificare le singole fatture per ordine nella tabelle: FATTURE;
+	di recuperare la lista fatture (con vari filtri per ordine, data, numero fattura, ecc);
+	
+
+- nei dati intestatario, viene sempre riportato id_user e mail;
+- per gli ordini con prodotti solo scaricabili non ci saranno di dati dell'intestatario dell'ordine e l'indirizzo di spedizione (da vedere se va sempre bene a livello fiscale);
+
+- numero e data fattura vengono creati dinamicamente una sola volta quando si selezionerà il tasto crea fattura per l'ordine, una volta creata il tasto scomparirà e sarà solo visualizzabile o modificabile (parzialmente) dall'interfaccia;
+
+- ci sarà una voce di menù con relativa sezione apposta per le fatture;
+	- la prima creazione della fattura avviene dalla sezione ordini, in visualizza ordini (oppure contestualmente al pagamento effettivo ...da valutare);
+	- per ogni fattura creata si potrà modificare solo alcuni dati, nella sezione delle fatture;
+	- nelle pagine della lista ordini dei clienti potranno scaricare la fattura in pdf;
+
+

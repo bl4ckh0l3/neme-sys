@@ -1,0 +1,311 @@
+.tableContainer{
+	margin:0 auto;
+	height:100%;
+	min-height:100%;	
+	width:100%;
+	vertical-align:top;
+	
+}.tableContainerInner{
+	margin:0 auto;
+	/*height:100%;
+	min-height:100%;*/	
+	/*width:100%;*/
+	/*padding-right:123px;*/
+	text-align:center;
+	
+}
+.tdContainerTopDetail{
+	margin:0 auto;
+	vertical-align:top;
+	height:113px;
+	width:100%;
+	text-align:center;
+}
+.tdContainerContentIndex{
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:59px;
+	width:100%;
+	height:389px;
+	text-align:left;
+	/*background-color:#AEA5A1;*/
+	background:url(../img/sfondo_dx.jpg) top left repeat;
+}
+.tdContainerContentList{
+	vertical-align:top;
+	padding-top:25px;
+	width:100%;
+	height:342px;
+	text-align:left;
+	/*background:url(../img/sfondo_iframe.jpg) top left repeat;*/
+	background-color:#AEA5A1;
+	padding-left:50px;
+	padding-right:0px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+}
+div.box{
+	width:450px;
+    height:332px;
+    overflow-x:auto;
+	overflow-y:auto;
+	padding:0px;
+    border:0px;
+	padding-left:50px;
+	/*scrollbar-arrow-color:#fffff0;	*/
+	scrollbar-base-color:#d3bfb6;	
+	/*scrollbar-darkshadow-color:#c0c0c0;*/	
+	/*scrollbar-face-color:#002163;*/
+	/*scrollbar-highlight-color:#ccc;*/
+	/*scrollbar-shadow-color:#ccc;*/
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+}
+.tdContainerContent{
+	vertical-align:top;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:100%;
+	text-align:center;
+	background-color:#AEA5A1;
+	/*background:url(../img/sfondo_dx.jpg) top left repeat;*/
+}
+.titleNews{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+}
+.tdHeaderCenter{
+	text-align:center;
+	/*padding-right:80px;*/
+	vertical-align:middle;
+	width:95%;
+}
+.tdPezziuniciSx{
+	vertical-align:top;
+	padding-top:12px;
+	padding-left:0px;
+	padding-right:0px;
+	width:260px;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#000000;
+}
+.tdPezziuniciCenter{
+	vertical-align:top;
+	width:450px;
+	text-align:center;
+}
+.tdPezziuniciDx{
+	vertical-align:top;
+	padding-top:12px;
+	padding-left:0px;
+	padding-right:0px;
+	width:260px;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#000000;
+}
+.txtRequestPrice{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	color:#ffffff;	
+}
+.txtClickToAdd{
+	vertical-align:top;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/*font-weight:bold;*/
+	color:#5B4A42;	
+
+}
+.txtAddToCard{
+	vertical-align:baseline;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	color:#000000;
+
+}
+.txtRemoveFromList{
+	vertical-align:top;
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/*font-weight:bold;*/
+	color:#5B4A42;	
+
+}
+.tdHeaderSxCard{
+	text-align:left;
+	padding-left:0px;
+	vertical-align:middle;
+	width:95%;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:16px;
+	color:#FFFFFF;
+}
+.tdContainerContentCard{
+	vertical-align:top;
+	padding-top:22px;
+	padding-left:60px;
+	padding-bottom:0px;
+	width:100%;
+	text-align:left;
+	background-color:#AEA5A1;
+	/*background:url(../img/sfondo_dx.jpg) top left repeat;*/
+}
+.tdPezziuniciSxCard{
+	vertical-align:top;
+	padding-top:3px;
+	padding-left:0px;
+	padding-right:25px;
+	width:231px;
+	text-align:left;
+}
+.txtComposeCard{
+	vertical-align:baseline;
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000000;
+
+}
+.tdPezziuniciCenterCard{
+	vertical-align:top;
+	text-align:left;
+}
+.formFieldTXT{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:330px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTShort{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:70px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTMedium{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:256px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTAREA{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:middle;
+}
+.formFieldTXTAREAPrivacy{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:top;
+}
+.formLabel{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	padding-right:13px;
+	vertical-align:middle;
+}
+.formLabelIntro{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelIntro2{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-style:italic;
+	font-size:10px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelSmall{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formFieldButton{	
+	width:74px;
+	height:19px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background-color:#D8D3D0;
+	border:1px solid #5B4A42;
+	
+}
+.formFieldButtonPos{
+	text-align:center;		
+}
+
+.tdContainerContentConfirm{
+	vertical-align:top;
+	width:100%;
+	height:389px;
+	text-align:left;
+	background:url(../img/sfondo_confirm.jpg) top left repeat;
+}
+
+.confirmPULeft{
+	text-align:right;
+	vertical-align:top;
+	/*padding-left:22px;*/
+	width:193px;
+}
+.confirmPURightConfirm{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	text-align:left;
+	vertical-align:top;
+	padding-left:90px;
+	padding-top:118px;
+}
+
+.iFrameStyle{
+	scrollbar-face-color: #5B4A42; 
+	scrollbar-shadow-color: #5B4A42; 
+	scrollbar-highlight-color: #5B4A42; 
+	scrollbar-3dlight-color: #5B4A42; 
+	scrollbar-darkshadow-color: #5B4A42; 
+	scrollbar-track-color: #5B4A42; 
+	scrollbar-arrow-color: #5B4A42;
+	border:1px solid #5B4A42;
+}

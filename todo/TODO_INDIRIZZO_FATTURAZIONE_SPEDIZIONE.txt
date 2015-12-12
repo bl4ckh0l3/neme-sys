@@ -1,0 +1,84 @@
+per gestire l'indirizzo di spedizione e quello di fatturazione in maniera distinta bisogna:
+
+- copiare i campi usati per l'indirizzo di spedizione già attivo, sia in pagina carrello, sia nella pagina degli ordini del BO;
+  di dafault si visualizza l'indirizzo di spedizione e una ckeckbox attivo che indica che l'indirizzo di fatturazione è identico;
+  se l'utente deseleziona il flag, compaiono i campi per indirizzo di fatturazione, se rimane attivo prima dell'invio ricopio i dati di spedizione nei campi della fatturazione;
+  
+  gestire correttamente i casi di utente con già valorizzato l'ìindirizzo di spedizione e/o di fatturazione;
+  
+  
+  
+************************   TABELLE AGGIUNTE:
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `bills_address`
+-- 
+DROP TABLE IF EXISTS `bills_address`;
+CREATE TABLE IF NOT EXISTS `bills_address` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `id_user` int(10) unsigned NOT NULL,
+  `name` varchar(100) default NULL,
+  `surname` varchar(100) default NULL,
+  `cfiscvat` varchar(16) default NULL,
+  `address` varchar(250) default NULL,
+  `city` varchar(100) default NULL,
+  `zipCode` varchar(20) default NULL,
+  `country` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `order_bills_address`
+-- 
+DROP TABLE IF EXISTS `order_bills_address`;
+CREATE TABLE IF NOT EXISTS `order_bills_address` (
+  `id_order` int(10) unsigned NOT NULL,
+  `id_bills` int(10) unsigned NOT NULL,
+  `address` varchar(250) default NULL,
+  `city` varchar(100) default NULL,
+  `zipCode` varchar(20) default NULL,
+  `country` varchar(100) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+************************   RECORD MULTI LANGUAGE AGGIUNTI:
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3373, 'frontend.area_user.ordini.table.label.bills_address', 'IT', 'Dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3374, 'frontend.area_user.ordini.table.label.bills_address', 'EN','Bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3375, 'backend.ordini.detail.table.label.bills_address', 'IT', 'Dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3376, 'backend.ordini.detail.table.label.bills_address', 'EN', 'Bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3377, 'backend.ordini.detail.table.label.change_bills_address', 'EN', 'Modify bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3378, 'backend.ordini.detail.table.label.change_bills_address', 'IT', 'Modifica dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3379, 'backend.ordini.detail.js.alert.insert_bills_address', 'IT', 'inserire dati completi di fatturazione!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3380, 'backend.ordini.detail.js.alert.insert_bills_address', 'EN', 'Insert complete bills data!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3381, 'backend.ordini.view.table.label.bills_address', 'IT', 'Dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3382, 'backend.ordini.view.table.label.bills_address', 'EN', 'Bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3383, 'frontend.carrello.table.label.bills_address', 'IT', 'Dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3384, 'frontend.carrello.table.label.bills_address', 'EN', 'Bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3385, 'frontend.carrello.table.label.change_bills_address', 'EN', 'Modify bills data');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3386, 'frontend.carrello.table.label.change_bills_address', 'IT', 'Modifica dati fatturazione');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3387, 'frontend.carrello.js.alert.insert_bills_address', 'IT', 'inserire dati completi di fatturazione!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3388, 'frontend.carrello.js.alert.insert_bills_address', 'EN', 'Insert complete bills data!');
+
+
+************************   FILE AGGIUNTI:
+/common/include/Object/BillsAddressClass.asp (clone di ShippingAddressClass.asp)
+
+
+************************   FILE MODIFICATI:
+/area_user/include/visualizzaordine.asp
+/area_user/include/initContent4.inc
+
+/editor/ordini/inserisciordine3.asp
+/editor/ordini/processordine3.asp
+/editor/ordini/visualizzaordine.asp
+/editor/ordini/mail_notif/mail_ordine_admin.asp
+/editor/ordini/mail_notif/mail_ordine_guest.asp
+
+/public/templates/shopping-card/carrello2.asp
+/public/templates/shopping-card/include/initStyleandJs2.inc
+/public/templates/shopping-card/include/initContent2.inc
+/public/templates/shopping-card/processcarrello.asp

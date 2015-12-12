@@ -1,0 +1,162 @@
+.contatti2Left{
+	background-color:#AEA5A1;
+	text-align:right;
+	vertical-align:top;
+	padding-right:22px;
+	padding-top:29px;
+	background-image:url(../img/sfondo_sx.jpg);
+	color:#604F48;
+	font-size:11px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	width:172px;
+}
+
+.contatti2Right{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background:url(../img/sfondo_dx.jpg) top left repeat-y;
+	text-align:left;	
+	width:463px;
+	padding-left:32px;
+	padding-top:4px;
+}
+.contatti2RightConfirm{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background:url(../img/sfondo_dx_confirm.jpg) top left repeat-y;
+	text-align:left;	
+	width:333px;
+	padding-left:130px;
+	padding-top:4px;
+}
+.formFieldTXT{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:330px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTShort{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:70px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTMedium{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:256px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	height:15px;
+	vertical-align:middle;
+}
+.formFieldTXTAREA{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:middle;
+}
+.formFieldTXTAREAPrivacy{	
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	width:405px;
+	background-color:#FFFFFF;
+	border:1px solid #ADA4A0;
+	vertical-align:top;
+}
+.formLabel{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	padding-right:13px;
+	vertical-align:middle;
+}
+.formLabelIntro{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelIntro2{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-style:italic;
+	font-size:10px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formLabelSmall{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:11px;
+	color:#5B4A42;
+	padding-right:13px;
+}
+.formFieldButton{	
+	width:74px;
+	height:19px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	color:#5B4A42;
+	background-color:#D8D3D0;
+	border:1px solid #5B4A42;
+	
+}
+.formFieldButtonPos{
+	text-align:center;		
+}
+.bottCopyright{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:13px;
+	color:#ADA5A1;
+	padding-top:20px;
+	
+}
+.bottOrari{
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:14px;
+	color:#FFFFFF;
+}
+.tdHeaderSX{
+	text-align:left;
+	vertical-align:bottom;
+	padding-left:39px;	
+	padding-top:5px;
+	width:452px;	
+}
+.tdHeaderBott{
+	text-align:left;
+	vertical-align:bottom;
+	padding-left:30px;	
+	padding-bottom:5px;
+}
+.tdContainerContent{
+	vertical-align:top;
+	width:100%;
+	text-align:left;
+	background:url(../img/sfondo_sx.jpg) top left repeat;
+}
+.tdContainerContentConfirm{
+	vertical-align:top;
+	width:100%;
+	text-align:left;
+	background:url(../img/sfondo_dx_confirm.jpg) top left repeat;
+}
+.contactTitle{
+	color:#604F48;
+	font-size:12px;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+}

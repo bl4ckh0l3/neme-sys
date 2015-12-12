@@ -1,0 +1,36 @@
+LISTA DEI FILE DA MODIFICARE (MINIMO NECESSARIO) AD OGNI PERSONALIZZAZIONE DI NEME-SYS:
+
+/installed.asp
+
+/common/img/** (quelle eventualmente necessarie al layout)
+
+/public/layout/addson/langs/langs_widget.inc
+/public/layout/addson/user/user_profile_widget.inc
+
+/public/layout/area_user/grid_top.asp
+/public/layout/area_user/grid_bottom.asp
+
+## la modifica delle due grid imposta il thema per tutte le pagine dell'area user:
+##	/public/layout/area_user/confirmregcode.asp
+##	/public/layout/area_user/confirmregistration.asp
+##	/public/layout/area_user/friendlist.asp
+##	/public/layout/area_user/manageuser.asp
+##	/public/layout/area_user/publicprofile.asp
+##	/public/layout/area_user/userphotos.asp
+##	/public/layout/area_user/userprofile.asp
+##	/public/layout/area_user/listaordini.asp
+##	/public/layout/area_user/visualizzaordine.asp
+
+/public/layout/css/stile.css
+
+/public/layout/include/login.asp
+/public/layout/include/error.html
+/public/layout/include/error.asp
+/public/layout/include/bottom.inc
+/public/layout/include/header.inc
+/public/layout/include/menu_vert_dx.inc
+/public/layout/include/menu_vert_sx.inc
+/public/layout/include/menu_orizz.inc
+
+/public/templates/**
+

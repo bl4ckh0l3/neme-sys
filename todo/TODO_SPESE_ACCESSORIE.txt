@@ -1,0 +1,130 @@
+le spese accessorie verranno gestite in due modi distinti:
+
+- spese attivate in automatico;
+- spese selezionate dall'utente;
+
+Le spese automatiche, vengono configurate dal BO con il flag autoactive e vengono presentate e calcolate in automatico in fase di creazione dell'ordine;
+Le spese selezionate dall'utente vengono presentate come lista di checkbox nel carrello e nella pagina finale degli ordini del BO e vengono calcolate in fase di creazione ordine solo se selezionate;
+Per le spese attive in automatico, la logica e il funzionamento rimane come adesso, vengono presentate a livello visuale e calcolate in fase di processing dell'ordine;
+Per le spese selezionate dall'utente bisogna prevedere i seguenti casi e problematiche:
+
+	- gestire il modo di far selezionare almeno una spesa dall'elenco proposto prima di proseguire;
+	- valutare se e come gestire la scelta di spese differenti, es:
+			è possibile scegliere diversi metodi di spedizione in modo esclusivo:
+													TRACO;
+													UPS;
+													TNT;
+													BARTOLINI;
+													ECC...;
+													
+			ma come fare a far scegliere contemporaneamente un altro tipo di spesa?
+			Aggiungere concetto di gruppo spesa e di select one o select multiple;
+			
+Di fatto per ogni spesa in fase di creazione/modifica si deciderà se sarà di tipo automatico o a scelta dell'utente;
+si deciderà il gruppo di appartenenza, per associarlo ad un blocco di ckeckbox o radio button univoci (il nome del gruppo sarà in nome del form field relativo);
+si deciderà se la spesa fa parte di un gruppo di checkbox (multiple=1) o radio button (multiple=0);
+
+Lato interfaccia di creazione/modifca spesa, nel BO, bisognerà fare dei controlli per verificare che se una spesa appartiene ad un gruppo, in quel gruppo tutte le spese siano multiple o no, ma mai miste;
+questo per evitare che lo stesso gruppo abbia lato frontend radio button e checkbox assieme che genererebbe errori;
+
+Lato carrello e gestione ordine, a seconda del tipo di spesa saranno presentate nel formato corretto e calcolate a seconda della selezione, o in automatico;
+
+in fase di processing ordine, si calcoleranno le spese automatiche e quelle selezionate dall'utente, e verranno aggiunte alle spese per ordine;
+
+Nella fase di processing le modifiche rispetto all'attuale sistema dovrebbero essere minime, limitate solo al controllo se la spesa è automatica o selezionata da frontend e quindi da calcolare o da skippare.
+
+Lato presentazione (carrello/ordine) andranno fatti più controlli js, gestita una hashtable js per memorizzare le spese da scegliere e l'importo che generano se calcolate, in modo da aggiungerle al volo al totale carrello/ordine se selezionate.
+			
+	
+
+************************   TABELLE MODIFICATE:
+spese_accessorie: 
+	aggiunta colonna autoactive (0/1) -->	serve a identificare se la spesa va aggiunta in automatico all'ordine senza presenza di checkbox o radio sul frontend;
+	aggiunta colonna group -->			serve a identificare di quale gruppo di checkbox o radio button fa parte la spesa, serve solo se non è selezionato il flag autoactive (campo stringa convertito in lettere minuscole in fase di inserimento su DB);
+	aggiunta colonna multiply -->			serve a identificare se la spesa fa parte di un gruppo di checkbox (scelta multipla) o di radio button (scelta singola);
+	
+-- --------------------------------------------------------
+-- 
+-- Struttura della tabella `spese_accessorie`
+-- 
+DROP TABLE IF EXISTS `spese_accessorie`;
+CREATE TABLE `spese_accessorie` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `descrizione_spesa` VARCHAR(100) NOT NULL,
+ `valore` DECIMAL(10,2) NOT NULL,
+  `tipologia_valore` SMALLINT(1) UNSIGNED NOT NULL,
+  `id_tassa_applicata` INTEGER(10) UNSIGNED default NULL,
+  `applica_frontend`SMALLINT(1) UNSIGNED,
+  `applica_backend` SMALLINT(1) UNSIGNED,
+  `autoactive` SMALLINT(1) UNSIGNED NOT NULL default '0',
+  `multiply` SMALLINT(1) UNSIGNED NOT NULL default '0',
+  `required` SMALLINT(1) UNSIGNED NOT NULL default '0',
+  `group` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `Index_2`(`valore`),
+  INDEX `Index_3`(`id_tassa_applicata`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;	
+	
+	
+	
+************************   RECORD MULTI LANGUAGE AGGIUNTI:
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3390, 'backend.spese.detail.table.label.autoactive', 'IT', 'Automatica');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3391, 'backend.spese.detail.table.label.autoactive', 'EN', 'Automatic');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3392, 'backend.spese.detail.table.label.multiply', 'IT', 'Multipla');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3393, 'backend.spese.detail.table.label.multiply', 'EN', 'Multiple');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3394, 'backend.spese.detail.table.label.group', 'IT', 'Gruppo');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3395, 'backend.spese.detail.table.label.group', 'EN', 'Group');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3396, 'backend.spese.detail.js.alert.insert_correct_group', 'IT', 'Formato del gruppo errato!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3397, 'backend.spese.detail.js.alert.insert_correct_group', 'EN', 'Wrong group format!');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3398, 'backend.spese.detail.js.alert.insert_correct_multiply', 'IT', '\u00E8 un gruppo gi\u00E0 associato al tipo multipla:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3399, 'backend.spese.detail.js.alert.insert_correct_multiply', 'EN', 'it\'s a already associated on group:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3400, 'backend.ordini.detail.js.alert.select_bills', 'IT', 'Seleziona la spesa accessoria: ');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3401, 'backend.ordini.detail.js.alert.select_bills', 'EN', 'Select bill: ');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3402, 'backend.spese.detail.table.label.required', 'IT', 'Obbligatorio');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3403, 'backend.spese.detail.table.label.required', 'EN', 'Required');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3404, 'backend.spese.lista.table.header.automatic', 'IT', 'AUTOMATICA');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3405, 'backend.spese.lista.table.header.automatic', 'EN', 'AUTOMATIC');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3406, 'backend.spese.lista.table.header.multiple', 'IT', 'MULTIPLA');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3407, 'backend.spese.lista.table.header.multiple', 'EN', 'MULTIPLE');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3408, 'backend.spese.lista.table.header.required', 'IT', 'OBBLIGATORIO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3409, 'backend.spese.lista.table.header.required', 'EN', 'REQUIRED');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3410, 'backend.spese.lista.table.header.group', 'IT', 'GRUPPO');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3411, 'backend.spese.lista.table.header.group', 'EN', 'GROUP');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3412, 'backend.spese.detail.js.alert.insert_correct_required', 'IT', '\u00E8 un gruppo gi\u00E0 associato al tipo obbligatorio:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3413, 'backend.spese.detail.js.alert.insert_correct_required', 'EN', 'it\'s a already associated on group:');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3414, 'backend.spese.detail.table.label.field_help_desc', 'IT', 'per ottenere la descrizione della <b>spesa</b> in multilingua, creare nella sezione <b>Gestione label multilingua</b> la nuova chiave composta nel modo seguente:<br/>portal.commons.order_bills.label.xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>Descrizione spesa</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3415, 'backend.spese.detail.table.label.group_help_desc', 'IT', 'per ottenere la descrizione del <b>gruppo</b> in multilingua, creare nella sezione <b>Gestione label multilingua</b> la nuova chiave composta nel modo seguente:<br/>portal.commons.order_bills.label.group.xxxxx<br/><br/>dove xxxxx corrisponde al valore inserito nel campo <b>Gruppo</b>');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3416, 'backend.spese.detail.table.label.field_help_desc', 'EN', 'to obtain a description of the <b>bill</b> in different languages, create in the <b>Multilanguage management</b> the new composite key as follows: <br/>portal.commons.order_bills.label.xxxxx<br/><br/> where xxxxx is the value entered in the <b>bill description</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3417, 'backend.spese.detail.table.label.group_help_desc', 'EN', 'to obtain a description of the <b>group</b> in different languages, create in the <b>Multilanguage management</b> the new composite key as follows: <br/>portal.commons.order_bills.label.group.xxxxx <br/> <br/> where xxxxx is the value entered in the <b>Group</b> field');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3418, 'frontend.carrello.js.alert.select_bills', 'IT', 'Seleziona la spesa accessoria: ');
+INSERT INTO `multi_languages` (`id`, `keyword`, `lang_code`, `value`) VALUES(3419, 'frontend.carrello.js.alert.select_bills', 'EN', 'Select bill: ');
+
+
+************************   FILE MODIFICATI:
+/common/include/Object/BillsClass.asp
+/common/include/Object/Bills4OrderClass.asp
+
+/editor/spese/include/init2.asp
+/editor/spese/inserisciSpesaaccessoria.asp
+/editor/spese/processSpesaaccessoria.asp
+
+/editor/ordini/processordine2.asp
+/editor/ordini/inserisciordine3.asp
+/editor/ordini/processordine3.asp
+
+/public/templates/shopping-card/include/initStyleandJs2.inc
+/public/templates/shopping-card/include/initContent2.inc
+/public/templates/shopping-card/processcarrello.asp
+
+
+
+
+
+
+***************************************************************************************   EVOLUZIONE SPESE ACCESSORIE *************************************************************
+
+studiare un sistema per gestire i calcoli delle spese si spedizione oltre ai parametri attuali, anche:
+- in base all'importo dell'ordine;
+- in base al numero dei prodotti;
+- in base al peso complessivo;
+- ..altre modalità....

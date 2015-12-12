@@ -1,0 +1,14 @@
+﻿GESTIRE UPLOAD FILE DA FIELD PRODOTTO E DA EDITOR HTML DEI FIELD PRODOTTO
+
+- necessario aggiungere visualizzazione campi file nei template prodotto
+	nel carrello, nelle pagine ordine del BO e dove devono essere recuperati e visualizzati
+	
+- nelle pagine prodotto su field di tipo file recupero file , trasformo i form dei prodotti in multipart-form-data
+	e in managecarrello recupero con classe FileUploadClass i campi e faccio upload del/dei file 
+	in una nuova dir dentro public, censita cove config var
+	registro nei field prod per carrello il path del file
+
+- dentro processcarrello recupero path e lo aggiungo all'ordine (forse viene già fatto in automatico ...verificare)
+
+- valutare se possibile applicare stessa logica nell'editor ridotto cleditor magari facendo l'upload via ajax 
+	verso una pagina ad hoc per upload file come per mine e il db access

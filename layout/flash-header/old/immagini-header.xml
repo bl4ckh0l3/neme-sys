@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<foto testo="LISBON EVENTS & TRAVEL GUIDE" link="http://www.tipsguidelisboa.com/common/include/Controller.asp?gerarchia=05" colore="203dbd">immagini/cover18.jpg</foto>
+<foto evento="Concerts" colore="83187a">immagini/music.jpg</foto>
+<foto evento="Nightlife" colore="203dbd">immagini/nightlife.jpg</foto>
+<foto evento="Art" colore="efaa04">immagini/art.jpg</foto>
+<foto evento="Sport" colore="ea002c">immagini/sport.jpg</foto>
+<foto evento="Shopping" colore="00a100">immagini/shopping.jpg</foto>
+<foto evento="Tourism" colore="fbcb39">immagini/turismo.jpg</foto>
+<foto evento="Outside lisbon" colore="ed14d1">immagini/outside.jpg</foto>
+</root>
+
+

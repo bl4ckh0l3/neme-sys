@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>form mail</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<script type="text/javascript" language="JavaScript">
+<!--
+
+function sendMail(){
+	if(controllaCampiMail()){
+		return true;
+		//document.form_send_mail.submit();
+	}else{
+		return false;
+	}
+}
+
+function controllaCampiMail(){	
+	
+	if(document.form_send_mail.nome.value == ""){
+		alert("Inserire il nome!");
+		document.form_send_mail.nome.focus();
+		return false;
+	}	
+	
+	if(document.form_send_mail.cognome.value == ""){
+		alert("Inserire il cognome!");
+		document.form_send_mail.cognome.focus();
+		return false;
+	}
+	
+	var strMail = document.form_send_mail.email.value;
+	if(strMail != ""){
+		if (strMail.indexOf("@")<2 || strMail.indexOf(".")==-1 || strMail.indexOf(" ")!=-1 || strMail.length<6){
+			alert("Il formato della mail \u00E8 errato!");
+			document.form_send_mail.email.focus();
+			return false;
+		}
+	}else if(strMail == ""){
+		alert("Inserire mail!");
+		document.form_send_mail.email.focus();
+		return false;
+	}	
+	
+	if(document.form_send_mail.telefono.value == ""){
+		alert("Inserire il numero di telefono!");
+		document.form_send_mail.telefono.focus();
+		return false;
+	}		
+	
+	if(document.form_send_mail.nazione.value == ""){
+		alert("Inserire nazione!");
+		document.form_send_mail.nazione.focus();
+		return false;
+	}		
+	
+	if(!document.form_send_mail.acceptPrivacy.checked){
+		alert("Necessaria accettazione trattamento dati!");
+		return false;
+	}	
+	
+	return true;
+}
+//-->
+
+</script>
+</head>
+<body>
+
+				
+<div><p class="title_contenuti">Vuoi ricevere maggiori informazioni</p>
+<br /><br type="_moz" /><br type="_moz" />Inviaci una mail tramite l`apposito form, saremo a vostra disposizione per fornirvi tutte le informazioni che desiderate, sulle nostre soluzioni ed i nostri progetti!<br />
+
+<br />
+oppure invia una mail a: <a href="mailto:info@xxxxxx.com">info@xxxxxx.com</a><br />
+<br type="_moz" />
+</div><p class="line"></p>
+
+		
+		<div id="profilo-utente">
+		<form action="contattaci.php" method="post" name="form_send_mail" onSubmit="return sendMail();">
+
+		  <input type="hidden" name="mail_to" value="blackhole01@gmail.com">
+
+		 <p>I campi contrassegnati con l&#39;asterisco (*) sono obbligatori</p>
+		 <ul>
+			<li><span>Nome * (*)</span></li>
+			<li><input type="text" name="nome" value="" /></li>
+
+		</ul>
+		 <ul>
+			<li><span>Cognome * (*)</span></li>
+			<li><input type="text" name="cognome" value="" /></li>
+		</ul>
+		 <ul>
+			<li><span>e-mail * (*)</span></li>
+			<li><input type="text" name="email" value="" /></li>
+
+		</ul>
+		 <ul>
+			<li><span>Tel. * (*)</span></li>
+			<li><input type="text" name="telefono" value="" /></li>
+		</ul>
+		 <ul>
+			<li><span>Indirizzo</span></li>
+			<li><input type="text" name="indirizzo" value="" /></li>
+
+		</ul>
+		 <ul>
+			<li><span>CAP / Citt&agrave; </span></li>
+			<li><input type="text" name="zipcode" value="" />&nbsp;<input type="text" name="citta" value="" /></li>
+		</ul>
+		 <ul>
+			<li><span>Nazione (*)</span></li>
+
+			<li><input type="text" name="nazione" value="" /></li>
+		</ul>
+		 <ul>
+			<li><span>Messaggio:</span></li>
+			<li><textarea name="testo" rows="3"></textarea></li>
+		</ul>
+		 <ul>
+			<li><span>Informativa legge 196/03 (*)</span></li>
+
+			<li><textarea name="testo_privacy" rows="3">Le informazioni da Lei fornite saranno utilizzate unicamente per rispondere alle Sue richieste o per l&#39;invio di materiale informativo. Non verranno in alcun modo divulgate ne utilizzate per altro scopo. In qualsiasi momento potr&agrave; contattarci per l&#39;aggiornamento o la cancellazione dei Suoi dati personali.</textarea></li>
+		</ul>
+		 <ul>
+			<li><input type="checkbox" name="acceptPrivacy" value="1" hspace="0" vspace="0" checked>Acconsento al trattamento dei miei dati personali per le finalit&agrave; di cui sopra.</li>
+		</ul>   
+		 <ul>
+			<li><br/><input type="submit" name="submit" value="INVIA" vspace="0" align="absmiddle">&nbsp;<input type="reset" name="reset" value="CANCELLA" vspace="0" align="absmiddle"></li>
+		</ul>
+		</form>
+		</div>
+</body>
+
+</html>

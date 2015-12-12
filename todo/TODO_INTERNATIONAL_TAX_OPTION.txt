@@ -1,0 +1,145 @@
+﻿Per gestire le opzioni di tasse con estero e intra UE bisogna aggiungere dei controlli e un ampliamento della sezione tasse che includa
+la possibilità di definire per ogni tassa creata, a seconda del paese di DESTINAZIONE del bene venduto, va applicata una serie di regole per
+gestire la tassazione corretta:
+
+
+1) aggiungere nuovo oggetto CountryClass
+	TABELLA:
+		-- --------------------------------------------------------
+		-- 
+		-- Struttura della tabella `countries`
+		-- 
+		DROP TABLE IF EXISTS `countries`;
+		CREATE TABLE IF NOT EXISTS `countries` (
+  		  `id` int(10) unsigned NOT NULL auto_increment,
+		  `country_code` VARCHAR(2) NOT NULL,
+		  `country_description` VARCHAR(100) NOT NULL,
+		  `state_region_code` VARCHAR(10) DEFAULT NULL,
+		  `state_region_description` VARCHAR(100) DEFAULT NULL,
+		  `active` SMALLINT(1) UNSIGNED NOT NULL default '0',
+		  `use_for` int(3) UNSIGNED DEFAULT NULL,  
+		  PRIMARY KEY (`id`)
+		) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
+
+2) aggiungere nuovo oggetto TaxsGroupClass
+	TABELLE:
+
+		-- --------------------------------------------------------
+		-- 
+		-- Struttura della tabella tax_group`
+		-- 
+		DROP TABLE IF EXISTS `tax_group`;
+		CREATE TABLE IF NOT EXISTS `tax_group` (  
+  		  `id` int(10) unsigned NOT NULL auto_increment,
+		  `description` VARCHAR(100) NOT NULL,
+		  PRIMARY KEY (`id`),
+		  INDEX `Index_TG_dc`(`description`)
+		) ENGINE = InnoDB  DEFAULT CHARSET=utf8;	
+
+		-- --------------------------------------------------------
+		-- 
+		-- Struttura della tabella tax_group_value`
+		-- 
+		DROP TABLE IF EXISTS `tax_group_value`;
+		CREATE TABLE IF NOT EXISTS `tax_group_value` (  
+		  `id_group` int(10) unsigned NOT NULL,
+		  `country_code` VARCHAR(2) NOT NULL,
+		  `state_region_code` VARCHAR(10) DEFAULT NULL,
+		  `id_tassa_applicata` int(10) unsigned default NULL,
+		  INDEX `Index_TGV_ig`(`id_group`),		  
+		  INDEX `Index_TGV_cc`(`country_code`),		  
+		  INDEX `Index_TGV_src`(`state_region_code`)
+		) ENGINE = InnoDB  DEFAULT CHARSET=utf8;		
+
+3) aggiungere a oggetto prodotto campi:
+	- ship_id_tax_group (int 11 def null o 0) id gruppo tassa da applicare al posto dell'originale associata al prodotto o null;
+	
+	aggiungendo i campi al prodotto posso gestire correttamente il caso di prodotto trasportabile o scaricabile, associando il gruppo tasse 
+	opportuno in base al tipo di prodotto.
+
+4) aggiungere anche a oggetto gruppo utente il riferimento al gruppo tassa
+
+5) aggiungere anche a oggetto spese accessorie il riferimento al gruppo tassa
+
+6) alla chiamata del metodo dei prodotti che ritorna la tassa secondo imponibile aggiungere controlli necessari per
+	 vedere se bisogna applicare altra tassa ...;
+	 
+7) nel BO aggiungere gestione country e gruppo tassa...;
+
+8) ampliare oggetto Ship Address e bill aggiungendo anche il campo state_region, oltre che country
+
+
+procedura:
+se nuova variabile enable_international_tax_option = true visualizzo obbligatoriamente campi spedizione ..valutare label condizionali lato utente
+per spiegare che si tratta di regime tassazione differente.
+nei process, recupero country code e aggiungo a oggetto/i tassa e in fase di calcolo tassa se presente country
+uso id tassa differente o null impostato e faccio calcolo importo;
+
+- lato frontend:
+		1) utente non loggato e no registrazione: 
+				prezzi iva standard nel carrello;
+		  	a inserimento country nel carrello finale ..aggiorno ajax prezzi
+		  	e mostro totale definitivo prima di invio carrello (solo view e update hidden),
+				riapplico calcoli corretti nei process e nell'ordine;
+		2) utente loggato prima di carrello: 
+				mostro già catalogo con tassa definitiva in base a ship country se presente;
+				idem nel carrello e applico anche nei process;
+		3) utente che si logga alla fine:
+				valgono regole caso 2;
+			
+- lato backoffice:
+		se cliente hai già campo ship country, visualizzo catalogo con prezzi corretti
+		in ogni caso, al change della select rilancio i calcoli process2 (ajax o reload) e mostro i totali corretti nell'ultima pagina ordine;
+
+
+REGOLE IVA E COUNTRY:
+se gruppo utente ha gruppo tassa
+	se country key esiste in gruppo tassa
+		- applico ai singoli prodotti regole tasse del gruppo
+		se esiste spesa spedizione
+			- applico ai singole spese regole tasse del gruppo 
+
+se gruppo utente non ha gruppo tassa
+	se singolo prodotto ha gruppo tassa
+		se country key esiste in gruppo tassa
+			- applico ai singoli prodotti regole tasse del gruppo
+			
+	se singola spesa ha gruppo tassa
+		se country key esiste in gruppo tassa
+			- applico a singole spese regole tasse del gruppo
+	
+
+TODO
+- OK impostare variabile applicativa enable_international_tax_option per gestire casi vendita con estero trasportabili/download;
+- OK aggiungere nuova variabile a file .sql e config .xml;
+- OK aggiungere in OR il controllo sulla nuova variabile dove si usano campi ship (carrello, ordini, ...);
+- OK terminare pagina BO country con ricerca e key multilingua dove mancano;
+- OK terminare negli ordini e poi dove serve gestione country e state/region con jquery e ajax per cambio seconda combo;
+- OK eliminare in tutti sql id multilingua nelle insert;
+- OK correggere errore carrello quando invio e utente no loggato (vedere processcarrello e dati in ingresso);
+- OK in carrello due al cambio country di ship portare dietro anche tutti gli altri campi ship e fatturazione se presenti;
+- OK in carrello due e ordini, distinguere tra dati spedizione standard o solo per tasse internazionali (valutare meno campi e gli altri hidden);
+- OK applicare se utente loggato margini del gruppo anche in catalogo prodotti, oltre che nelle pagine carrello;
+- OK terminare aggiunta nuova classe TaxsGroupClass e tutti i richiami dentro i file:
+	- /shopping-card/include/initContent2.inc
+	- /shopping-card/processcarrello.asp
+	- /editor/ordini/inserisciordine3.asp
+	- /editor/ordini/processordine2.asp
+	- /editor/ordini/processordine3.asp
+	- nelle pagine del catalogo prodotti 
+- OK aggiungere nella paginazione del gruppo tasse riferimento a div corretto ..se no apre sempre quello delle tasse;
+- OK aggiungere cancellazione associazioni gruppo tassa;
+- OK recuperare descrizioni nazioni, stati, tasse nella lista delle associazioni;
+         * recuperare liste singoli oggetti prima dei cicli for delle associazioni, usare le mappe ottenuto nei for senza richiamare DB;
+- OK aggiungere ajax per cambio tassa nelle liste delle associazioni;
+- OK aggiungere check su campi vuoti per inserimento gruppi e associazioni;
+- OK risolvere problema cancellazione gruppo tassa;
+- OK applicare check su tasto invio form carrello e ordine in base al country;
+- OK verificare sincronizzazione snippet;
+- ricontrollare tutto 100 volte;
+- verificare reload country con ajax ...capire come aggiornare pagina intera o parte centrale della pagina (#backend-content);
+- aggiungere in colonna 'tipo' di campi config reg exp per js;
+
+
+
+
